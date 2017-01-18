@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dw.dao.StudentMapper">
+	<resultMap id="BaseResultMap" type="com.dw.model.Student">
+		<id column="SNO" property="stuNo" javaType="int" jdbcType="INTEGER" />
+		<result column="SNO" property="stuNo" javaType="int" jdbcType="INTEGER" />
+		<result column="STUNAME" property="stuName" javaType="string" jdbcType="VARCHAR" />
+		<result column="STUSEX" property="stuSex" javaType="string" jdbcType="VARCHAR" />
+		<result column="STUAGE" property="stuAge" javaType="int" jdbcType="INTEGER" />
+		<result column="STUNATIVEPLACE" property="stuNativePlace"
+			jdbcType="VARCHAR" />
+		<result column="STUADDRESS" property="stuAddress" javaType="string" jdbcType="VARCHAR" />
+		<result column="RECORDDATE" property="recordDate" javaType="java.sql.Date" jdbcType="DATE" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		SNO, STUNAME, STUSEX, STUAGE, STUNATIVEPLACE, STUADDRESS,
+		RECORDDATE
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from BP_TESTING_STU
+		where ID = #{stuNo,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		BP_TESTING_STU
+		where SNO = #{stuNo,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.dw.model.Student">
+		insert into BP_TESTING_STU
+		(SNO, STUNAME, STUSEX, STUAGE, STUNATIVEPLACE,
+		STUADDRESS, RECORDDATE)
+		values (#{stuNo,jdbcType=INTEGER}, #{stuName,jdbcType=VARCHAR},
+		#{stuSex,jdbcType=VARCHAR},
+		#{stuAge,jdbcType=INTEGER},
+		#{stuNativePlace,jdbcType=VARCHAR}, #{stuAddress,jdbcType=VARCHAR},
+		#{recordDate,jdbcType=DATE})
+	</insert>
+	<!-- insert -->
+	<insert id="insertSelective" parameterType="com.dw.model.Student">
+		insert into BP_TESTING_STU
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="SNO != null">
+				SNO,
+			</if>
+			<if test="STUNAME != null">
+				STUNAME,
+			</if>
+			<if test="STUSEX != null">
+				STUSEX,
+			</if>
+			<if test="STUAGE != null">
+				STUAGE,
+			</if>
+			<if test="STUNATIVEPLACE != null">
+				STUNATIVEPLACE,
+			</if>
+			<if test="STUADDRESS != null">
+				STUADDRESS,
+			</if>
+			<if test="RECORDDATE != null">
+				RECORDDATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="stuNo != null">
+				#{stuNo,jdbcType=INTEGER},
+			</if>
+			<if test="STUNAME != null">
+				#{stuName,jdbcType=VARCHAR},
+			</if>
+			<if test="stuSex != null">
+				#{stuSex,jdbcType=VARCHAR},
+			</if>
+			<if test="stuAge != null">
+				#{stuAge,jdbcType=INTEGER},
+			</if>
+			<if test="STUNATIVEPLACE != null">
+				#{STUNATIVEPLACE,jdbcType=VARCHAR},
+			</if>
+			<if test="stuAddress != null">
+				#{stuAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="recordDate != null">
+				#{recordDate,jdbcType=DATE},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.dw.model.Student">
+		update BP_TESTING_STU
+		<set>
+			<if test="stuNo != null">
+				#{stuNo,jdbcType=INTEGER},
+			</if>
+			<if test="stuName != null">
+				#{stuName,jdbcType=VARCHAR},
+			</if>
+			<if test="stuSex != null">
+				#{stuSex,jdbcType=VARCHAR},
+			</if>
+			<if test="stuAge != null">
+				#{stuAge,jdbcType=INTEGER},
+			</if>
+
+			<if test="stuNativePlace != null">
+				#{stuNativePlace,jdbcType=VARCHAR},
+			</if>
+			<if test="stuAddress != null">
+				#{stuAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="recordDate != null">
+				#{recordDate,jdbcType=DATE},
+			</if>
+		</set>
+		where SNO = #{stuNo,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.dw.model.Student">
+		update
+		BP_TESTING_STU
+		set
+		SNO = 
+		#{STUNO,jdbcType=INTEGER},
+		STUNAME =
+		#{stuName,jdbcType=VARCHAR},
+		STUSEX = #{stuSex,jdbcType=VARCHAR},
+		STUAGE = #{stuAge,jdbcType=INTEGER},
+		STUNATIVEPLACE =
+		#{stuNativePlace,jdbcType=VARCHAR},
+		STUADDRESS =
+		#{stuAddress,jdbcType=VARCHAR},
+		RECORDDATE =
+		#{recordDate,jdbcType=DATE}
+		where SNO = #{stuNo,jdbcType=INTEGER}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap">
+		select SNO, STUNAME, STUSEX,
+		STUAGE, STUNATIVEPLACE, STUADDRESS, RECORDDATE
+		from BP_TESTING_STU
+	</select>
+</mapper>

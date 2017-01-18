@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dw.dao.LoginMapper">
+	<resultMap id="BaseResultMap" type="com.dw.model.SuperUser">
+		<id column="SUPER_USER" property="superUser" javaType="string" jdbcType="VARCHAR" />
+
+		<result column="SUPER_USER" property="superUser" javaType="string" jdbcType="VARCHAR" />
+		<result column="OP_TYPE" property="superUserPw" javaType="string" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		SUPER_USER, SUPER_USER_PW
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from BP_TESTING_SUPER_ACCOUNT
+		where SUPER_USER = #{superUser,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		BP_TESTING_SUPER_ACCOUNT
+		where SUPER_USER = #{superUser,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.dw.model.SuperUser">
+		insert into BP_TESTING_SUPER_ACCOUNT
+		(SUPER_USER, SUPER_USER_PW)
+		values (#{superUser,jdbcType=VARCHAR}, #{superUserPw,jdbcType=VARCHAR})
+	</insert>
+	<!-- insert -->
+	<insert id="insertSelective" parameterType="com.dw.model.SuperUser">
+		insert into BP_TESTING_SUPER_ACCOUNT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="superUser != null">
+				SUPER_USER,
+			</if>
+			<if test="superUserPw != null">
+				SUPER_USER_PW,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="superUser != null">
+				#{superUser,jdbcType=VARCHAR},
+			</if>
+			<if test="superUserPw != null">
+				#{superUserPw,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.dw.model.SuperUser">
+		update BP_TESTING_SUPER_ACCOUNT
+		<set>
+			<if test="superUser != null">
+				#{superUser,jdbcType=VARCHAR},
+			</if>
+			<if test="superUserPw != null">
+				#{superUserPw,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where SUPER_USER = #{superUser,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.dw.model.SuperUser">
+		update
+		BP_TESTING_SUPER_ACCOUNT
+		set
+		SUPER_USER = 
+		#{superUser,jdbcType=VARCHAR},
+		SUPER_USER_PW =
+		#{superUserPw,jdbcType=VARCHAR},
+		where SUPER_USER = #{superUser,jdbcType=VARCHAR}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap">
+		select SUPER_USER,SUPER_USER_PW
+		from BP_TESTING_SUPER_ACCOUNT
+	</select>
+</mapper>

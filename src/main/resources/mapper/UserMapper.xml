@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dw.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="com.dw.model.User">
+		<id column="ACCOUNTNAME" property="username" javaType="string" jdbcType="VARCHAR" />
+
+		<result column="ACCOUNTNAME" property="username" javaType="string" jdbcType="VARCHAR" />
+		<result column="ACCOUNTPASSWD" property="password" javaType="string" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+		ACCOUNTNAME, ACCOUNTPASSWD
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from BP_TESTING_ACCOUNT
+		where ACCOUNTNAME = #{username,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		BP_TESTING_ACCOUNT
+		where ACCOUNTNAME = #{username,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.dw.model.User">
+		insert into BP_TESTING_ACCOUNT
+		(ACCOUNTNAME, ACCOUNTPASSWD)
+		values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.dw.model.User">
+		update
+		BP_TESTING_ACCOUNT
+		set
+		ACCOUNTNAME = 
+		#{username,jdbcType=VARCHAR}
+		where ACCOUNTNAME = #{username,jdbcType=VARCHAR}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap">
+		select ACCOUNTNAME, ACCOUNTPASSWD
+		from BP_TESTING_ACCOUNT	
+	</select>
+</mapper>
