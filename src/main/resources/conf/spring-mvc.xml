@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+    <!--扫描注解 -->
+    <context:component-scan base-package="com.tydic.bp.core.controller,com.tydic.web" />
+    <!--默认的mvc注解映射的支持-->
+	<mvc:annotation-driven>
+		<!-- 当使用@responseBody时会乱码,解决紫问题,需要 使用json包解决乱码问题 -->
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8" />
+            </bean>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                     <bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+                         <property name="failOnEmptyBeans" value="false" />
+                     </bean>
+                 </property>
+            </bean>
+        </mvc:message-converters>
+     </mvc:annotation-driven>
+    <!--过滤静态文件 -->
+    <mvc:default-servlet-handler />
+    <!-- proxy-target-class 使用CGLib动态代理 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+     <!--拦截器 -->
+    <mvc:interceptors>
+      <!--登陆拦截-->
+<!--         <bean class="com.tydic.web.core.interceptor.LoginInterceptor"> -->
+<!--             <constructor-arg value="/index.jsp, /jsp/login/, /dicLogin,/vkLogin,/login/dicLogin , -->
+<!--                     /login/vkLogin,/login/dic,/login/vk,/js,/images,/css" /> -->
+<!--         </bean> -->
+        
+      <!--参数验证拦截-->
+        <mvc:interceptor>  
+        <mvc:mapping path="/**"/>  
+        <mvc:exclude-mapping path="/css/**"/>
+        <mvc:exclude-mapping path="/js/**"/>
+        <mvc:exclude-mapping path="/jsp/**"/>
+        <bean class="com.tydic.bp.core.validation.ValidateStrategyInterceptor"/> 
+    </mvc:interceptor>
+    </mvc:interceptors>
+   
+   
+   
+    <!-- 视图解析器-->
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="viewResolvers">
+            <list>
+                <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="prefix" value="/WEB-INF/jsp/" /> <!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
+                    <property name="suffix" value=".jsp"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 文件上传解析器 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- one of the properties available; the maximum file size in bytes -->
+        <property name="maxUploadSize" value="-1"/>
+    </bean>
+
+    <!-- 总错误处理 -->
+    <bean id="exceptionResolver"
+          class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView">
+            <value>error</value>
+        </property>
+        <property name="defaultStatusCode">
+            <value>500</value>
+        </property>
+        <property name="warnLogCategory" value="WARN" />
+    </bean>
+    
+   <!-- 配置国际化资源文件路径 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<!-- 定义消息资源文件的相对路径 -->
+			<value>i18n/message</value>
+		</property>
+	</bean>
+</beans>

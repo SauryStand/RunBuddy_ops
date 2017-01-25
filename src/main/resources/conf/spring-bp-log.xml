@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-3.0.xsd
+         http://www.springframework.org/schema/tx
+         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+         http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <!-- 日志管理 -->
+    <bean id="logService" class="com.tydic.service.system.impl.LogServiceImpl"></bean>
+    <aop:config>
+        <!-- 切入点 service -->
+        <!--<aop:pointcut
+                 expression="execution(public * com.tydic.*.service..*add*(..))||
+                             execution(public * com.tydic.*.service..*insert*(..))||
+                             execution(public * com.tydic.*.service..*update*(..))||
+                             execution(public * com.tydic.*.service..*edit*(..))||
+                             execution(public * com.tydic.*.service..*del*(..))||
+                             execution(public * com.tydic.*.service..*getSequence*(..))||
+                             execution(public * com.tydic.*.service..*multiOperation*(..))" id="logPoint" />-->
+        <!--拦截在web的action层后,只能对execute方法进行拦截，也就是所有方法都进行拦截-->
+        <aop:pointcut
+                expression="execution(public * com.tydic.web..*(..))||execution(public * com.tydic.bp.core.action..*(..))
+                            ||execution(public * com.tydic.bp.core.controller..*(..))" id="logPoint" />
+        <!-- 切面： 将哪个对象中的哪个方法，织入到哪个切入点 -->
+        <aop:aspect id="dd" ref="logService">
+            <!-- 前置通知
+            <aop:before method="log" pointcut-ref="logPoint" /> -->
+            <aop:after method="logArg" pointcut-ref="logPoint" />
+            <!--<aop:after-returning method="logArgAndReturn" returning="returnObj" pointcut-ref="logPoint"/>-->
+        </aop:aspect>
+    </aop:config>
+    <!-- end -->
+</beans>
