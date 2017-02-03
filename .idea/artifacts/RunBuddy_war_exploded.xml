@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="RunBuddy:war exploded">
-    <output-path>$PROJECT_DIR$/target/RunBuddy</output-path>
+    <output-path>$PROJECT_DIR$/target/RunBuddy_ops</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -91,10 +91,11 @@
           <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.3" />
           <element id="library" level="project" name="Maven: org.springframework:spring-test:4.0.8.RELEASE" />
           <element id="library" level="project" name="Maven: bitwalker:UserAgentUtils:1.13" />
+          <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.1.46" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/RunBuddy/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/RunBuddy_ops/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="RunBuddy/web/Web" />
     </root>

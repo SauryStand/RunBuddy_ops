@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="RunBuddy:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="RunBuddy.war">
+    <root id="archive" name="RunBuddy_ops.war">
       <element id="artifact" artifact-name="RunBuddy:war exploded" />
     </root>
   </artifact>
