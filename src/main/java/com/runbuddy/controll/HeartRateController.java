@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 //@RestController
-//@RequestMapping("${adminPath}/heartrate")
+//@RequestMapping("heartrate")
 @Controller
 public class HeartRateController extends BaseController{
 
@@ -22,10 +22,12 @@ public class HeartRateController extends BaseController{
      */
     protected Logger logger = LoggerFactory.getLogger(HeartRateController.class);
 
-    @RequestMapping(value="${adminPath}/heartrate/upload", method= RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="${adminPath}/heartrate/upload")
     @ResponseBody
-    public String upLoadHeartRate(@RequestBody JSONObject json){
+    public String upLoadHeartRate(String json){
         logger.debug("-->>拦截测试输出");
+        int i = 10;
+        System.out.println("------>>look here:"+i);
         return null;
     }
 

@@ -30,6 +30,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.security.FormAuthenticationFilter;
 import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm.Principal;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 登录Controller
@@ -46,6 +47,18 @@ public class LoginController extends BaseController {
 
     @Autowired
     private SessionDAO sessionDAO;
+
+
+    @RequestMapping(value="${adminPath}/heartrate")
+    @ResponseBody
+    public String upLoadHeartRate(String json){
+        logger.debug("-->>拦截测试输出");
+        int i = 10;
+        System.out.println("------>>look here:"+i);
+        return null;
+    }
+
+
 
     /**
      * 管理登录
