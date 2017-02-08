@@ -83,7 +83,7 @@
         <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
         <init-param>
             <param-name>allow</param-name>
-            <param-value>127.0.0.1</param-value>
+            <param-value>115.28.71.229</param-value><!-- 应该修改为服务器的配置？ 原来是本地的127.0.0.1-->
         </init-param>
     </servlet>
     <servlet-mapping>

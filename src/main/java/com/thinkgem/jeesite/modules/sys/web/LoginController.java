@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.runbuddy.common.ReplyCollection;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.util.WebUtils;
@@ -15,9 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.security.shiro.session.SessionDAO;
@@ -30,6 +33,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.security.FormAuthenticationFilter;
 import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm.Principal;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -48,16 +52,21 @@ public class LoginController extends BaseController {
     @Autowired
     private SessionDAO sessionDAO;
 
-
-    @RequestMapping(value="${adminPath}/heartrate")
+    //${adminPath}
+    @RequestMapping(value="/heartrate")
     @ResponseBody
-    public String upLoadHeartRate(String json){
-        logger.debug("-->>拦截测试输出");
-        int i = 10;
-        System.out.println("------>>look here:"+i);
-        return null;
-    }
+    public ReplyCollection upLoadHeartRate(@RequestBody JSONObject json){
 
+        ReplyCollection reply = new ReplyCollection();
+        logger.debug("-->>拦截测试输出");
+
+        int i = 10;
+        System.out.println("------>>look here:" + json.toJSONString() + "测试~~~");
+
+        reply.setMessage("-->>uploadsuccess！");
+
+        return reply;
+    }
 
 
     /**
