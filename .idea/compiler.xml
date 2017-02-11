@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="RunBuddy" />
+        <module name="RunBuddy_ops" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="RunBuddy" target="1.7" />
+      <module name="RunBuddy_ops" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

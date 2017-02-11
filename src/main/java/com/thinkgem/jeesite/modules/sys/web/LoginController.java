@@ -13,6 +13,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +42,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  * @author ThinkGem
  * @version 2013-5-31
+ * @modify Johnny 2017.02.11
  */
 
 //Todo 这里需要加中间件跳转！，也就是RunBuddy部分
@@ -51,6 +53,17 @@ public class LoginController extends BaseController {
 
     @Autowired
     private SessionDAO sessionDAO;
+    //method=RequestMethod.POST,
+
+//    @RequestMapping(value = "/heartrate")
+//    @ResponseBody
+//    public String upLoadHeartRate(JSONObject json) {
+//        logger.debug("-->>拦截测试输出");
+//        int i = 10;
+//        System.out.println("------>>look here:" + i + "测试~~~");
+//        return null;
+//    }
+
 
     //${adminPath}
     @RequestMapping(value="/heartrate")
@@ -62,7 +75,7 @@ public class LoginController extends BaseController {
 
         int i = 10;
         System.out.println("------>>look here:" + json.toJSONString() + "测试~~~");
-
+        reply.setCode("8888");
         reply.setMessage("-->>uploadsuccess！");
 
         return reply;

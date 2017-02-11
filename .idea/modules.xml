@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RunBuddy.iml" filepath="$PROJECT_DIR$/RunBuddy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RunBuddy_ops.iml" filepath="$PROJECT_DIR$/RunBuddy_ops.iml" />
     </modules>
   </component>
 </project>

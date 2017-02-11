@@ -71,7 +71,10 @@
 		<property name="prefix" value="${web.view.prefix}"/>
 		<property name="suffix" value="${web.view.suffix}"/>
 	</bean>
-	
+
+	<!-- 默认的注解映射的支持，解决Http status 415错误,貌似没有生效 2017.02.11 -->
+	<mvc:annotation-driven />
+
 	<!-- 对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理 -->
 	<mvc:default-servlet-handler />
 	
@@ -80,8 +83,9 @@
 	
 	<!-- 定义无Controller的path<->view直接映射 -->
 	<mvc:view-controller path="/" view-name="redirect:${web.view.index}"/>
-	
-	<mvc:view-controller path="/heartrate" view-name="redirect:${web.view.index}"/>
+
+	<!-- 注释掉这个映射 -->
+	<!-- <mvc:view-controller path="/heartrate" view-name="redirect:${web.view.index}"/> -->
 	
 	<!-- 拦截器配置，拦截顺序：先执行后定义的，排在第一位的最后执行。-->
 	<mvc:interceptors>

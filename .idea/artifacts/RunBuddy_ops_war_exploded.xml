@@ -1,10 +1,10 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="RunBuddy:war exploded">
+  <artifact type="exploded-war" name="RunBuddy_ops:war exploded">
     <output-path>$PROJECT_DIR$/target/RunBuddy_ops</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="RunBuddy" />
+          <element id="module-output" name="RunBuddy_ops" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.springframework:spring-core:4.0.8.RELEASE" />
@@ -97,7 +97,7 @@
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/RunBuddy_ops/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="RunBuddy/web/Web" />
+      <element id="javaee-facet-resources" facet="RunBuddy_ops/web/Web" />
     </root>
   </artifact>
 </component>
