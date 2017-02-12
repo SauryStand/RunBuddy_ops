@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.runbuddy.common.ReplyCollection;
+import com.runbuddy.dao.entity.HeartRateDao;
+import com.runbuddy.service.HeartRateServiceI;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.util.WebUtils;
@@ -52,17 +54,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LoginController extends BaseController {
 
     @Autowired
+    private HeartRateServiceI heartRateServiceI;
+
+    @Autowired
     private SessionDAO sessionDAO;
     //method=RequestMethod.POST,
 
-//    @RequestMapping(value = "/heartrate")
-//    @ResponseBody
-//    public String upLoadHeartRate(JSONObject json) {
-//        logger.debug("-->>拦截测试输出");
-//        int i = 10;
-//        System.out.println("------>>look here:" + i + "测试~~~");
-//        return null;
-//    }
+
 
 
     //${adminPath}

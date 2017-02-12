@@ -18,19 +18,21 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class HeartRateController extends BaseController {
 
-	/**
-	 * 日志对象
-	 */
-	protected Logger logger = LoggerFactory
-			.getLogger(HeartRateController.class);
+    /**
+     * 日志对象
+     */
+    protected Logger logger = LoggerFactory
+            .getLogger(HeartRateController.class);
 
-/*	@RequestMapping(value = "/heartrate")
-	@ResponseBody
-	public String upLoadHeartRate(String json) {
-		logger.debug("-->>拦截测试输出");
-		int i = 10;
-		System.out.println("------>>look here:" + i + "测试~~~");
-		return null;
-	}*/
+    //    @RequestMapping(value = "/heartrate")
+//    @ResponseBody
+//    public String upLoadHeartRate(JSONObject json) {
+//        logger.debug("-->>拦截测试输出");
+//        int i = 10;
+//        System.out.println("------>>look here:" + i + "测试~~~");
+//        return null;
+//    }
+
+
 
 }
