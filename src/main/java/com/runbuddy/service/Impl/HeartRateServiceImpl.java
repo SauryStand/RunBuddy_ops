@@ -1,6 +1,6 @@
 package com.runbuddy.service.Impl;
 
-import com.runbuddy.dao.entity.HeartRateDao;
+import com.runbuddy.dao.entity.HeartRate;
 import com.runbuddy.service.HeartRateServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +19,14 @@ public class HeartRateServiceImpl implements HeartRateServiceI{
     private HeartRateServiceI heartRateServiceI;
 
     @Override
-    public List<HeartRateDao> getAllDate() {
+    public List<HeartRate> getAllDate() {
         heartRateServiceI.getAllDate();
         return null;
     }
 
     @Override
-    public int insertHeartDate(HeartRateDao heartRateDao) {
-        heartRateServiceI.insertHeartDate(heartRateDao);
+    public int insertHeartDate(HeartRate heartRate) {
+        heartRateServiceI.insertHeartDate(heartRate);
         return 0;
     }
 }

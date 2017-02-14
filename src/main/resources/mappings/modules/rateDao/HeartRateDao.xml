@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.runbuddy.dao.entity.HeartRateDao">
+<mapper namespace="com.runbuddy.dao.entity.HeartRate">
 
     <resultMap id="BaseResultMap" type="Role">
         <result property="HIGHEST_RATE" column="HIGHEST_RATE" javaType="string" jdbcType="VARCHAR"/>
@@ -34,7 +34,7 @@
         sys_heartrate_data
     </select>
     
-    <insert id="insert" parameterType="com.runbuddy.dao.entity.HeartRateDao">
+    <insert id="insert" parameterType="com.runbuddy.dao.entity.HeartRate">
         INSERT INTO sys_heartrate_data
         (HIGHEST_RATE,
          LOWEST_RATE,

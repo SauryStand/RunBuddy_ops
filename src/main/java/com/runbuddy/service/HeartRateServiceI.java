@@ -1,6 +1,6 @@
 package com.runbuddy.service;
 
-import com.runbuddy.dao.entity.HeartRateDao;
+import com.runbuddy.dao.entity.HeartRate;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  **/
 
 public interface HeartRateServiceI {
-    List<HeartRateDao> getAllDate();
-    int insertHeartDate(HeartRateDao heartRateDao);
+    List<HeartRate> getAllDate();
+    int insertHeartDate(HeartRate heartRateDao);
 
 }

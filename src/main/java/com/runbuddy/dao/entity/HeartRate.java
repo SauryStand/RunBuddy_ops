@@ -10,7 +10,7 @@ import java.util.Date;
  * @Create: 2017-02-12-19:28
  **/
 
-public class HeartRateDao extends DataEntity<HeartRateDao> {
+public class HeartRate extends DataEntity<HeartRate> {
     /**
      * 这样的命名法不符合java的规范，但是为了配合数据库命名，目前决定这样命名实体类
      */
@@ -23,7 +23,7 @@ public class HeartRateDao extends DataEntity<HeartRateDao> {
     private int execise_load;
     private Date record_date;
 
-    public HeartRateDao(){}
+    public HeartRate(){}
 
 
     public String getHighest_rate() {
