@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 // @RestController
 // @RequestMapping("heartrate")
 @Controller
+@RequestMapping("heart")
 public class HeartRateController extends BaseController {
 
     /**
@@ -22,7 +23,7 @@ public class HeartRateController extends BaseController {
     protected Logger logger = LoggerFactory
             .getLogger(HeartRateController.class);
 
-    @RequestMapping(value = "/heart")
+    @RequestMapping(value = "/")
     @ResponseBody
     public String upLoadHeartRate(String json) {
         logger.debug("-->>拦截测试输出");
