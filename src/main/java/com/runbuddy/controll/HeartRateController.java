@@ -1,13 +1,11 @@
 package com.runbuddy.controll;
 
-import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.common.web.BaseController;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by Jonney Chou on 2017/1/8.
@@ -24,14 +22,14 @@ public class HeartRateController extends BaseController {
     protected Logger logger = LoggerFactory
             .getLogger(HeartRateController.class);
 
-    //    @RequestMapping(value = "/heartrate")
-//    @ResponseBody
-//    public String upLoadHeartRate(JSONObject json) {
-//        logger.debug("-->>拦截测试输出");
-//        int i = 10;
-//        System.out.println("------>>look here:" + i + "测试~~~");
-//        return null;
-//    }
+    @RequestMapping(value = "/heart")
+    @ResponseBody
+    public String upLoadHeartRate(String json) {
+        logger.debug("-->>拦截测试输出");
+        int i = 10;
+        System.out.println("------>>look here:" + i + "测试~~~");
+        return null;
+    }
 
 
 
