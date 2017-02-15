@@ -44,8 +44,8 @@ import java.util.Map;
 @Controller
 public class LoginController extends BaseController {
 
-    @Autowired
-    private HeartRateServiceI heartRateServiceI;
+    //@Autowired
+    //private HeartRateServiceI heartRateServiceI;
 
     @Autowired
     private SessionDAO sessionDAO;

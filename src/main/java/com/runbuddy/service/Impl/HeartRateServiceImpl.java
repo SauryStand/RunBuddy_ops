@@ -12,7 +12,7 @@ import java.util.List;
  * @Author: Johnny Chou
  * @Create: 2017-01-28-22:51
  **/
-@Service("HeartRateServiceImpl")
+//@Service("HeartRateServiceImpl")
 public class HeartRateServiceImpl implements HeartRateServiceI{
 
     @Autowired
