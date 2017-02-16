@@ -18,6 +18,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.security.FormAuthenticationFilter;
 import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm.Principal;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.util.WebUtils;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.Map;
 
 /**
@@ -37,8 +39,6 @@ import java.util.Map;
  * @version 2013-5-31
  * @modify Johnny 2017.02.11
  */
-
-//Todo 这里需要加中间件跳转！，也就是RunBuddy部分
 
 
 @Controller
@@ -51,6 +51,15 @@ public class LoginController extends BaseController {
     private SessionDAO sessionDAO;
     //method=RequestMethod.POST,
 
+    @RequestMapping(value = "/hearts")
+    @ResponseBody
+    public String upLoadHeartRate(String json) {
+        logger.debug("-->>拦截测试输出");
+        int i = 15;
+        System.out.println("------>>look here:" + i + "测试~~~");
+        return null;
+    }
+    
 
     @RequestMapping(value="/heartrate")
     @ResponseBody

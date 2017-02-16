@@ -64,7 +64,7 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 			logger.debug("login submit, active session size: {}, username: {}", activeSessionSize, token.getUsername());
 		}
 		
-		// 校验登录验证码
+		// 校验登录验证码 没有用到校验码
 		if (LoginController.isValidateCodeLogin(token.getUsername(), false, false)){
 			Session session = UserUtils.getSession();
 			String code = (String)session.getAttribute(ValidateCodeServlet.VALIDATE_CODE);
