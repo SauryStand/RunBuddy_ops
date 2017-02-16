@@ -85,7 +85,7 @@ public class SystemService extends BaseService implements InitializingBean {
 		// 设置分页参数
 		user.setPage(page);
 		// 执行分页查询
-		page.setList(userDao.findList(user));
+		page.setList(userDao.findList(user));//记录到这里2017.02.16
 		return page;
 	}
 	

@@ -1,4 +1,6 @@
-package com.thinkgem.jeesite.modules.runbuddy.dao.entity;
+package com.thinkgem.jeesite.modules.runbuddy.entity;
+
+import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 import java.util.Date;
 
@@ -7,7 +9,7 @@ import java.util.Date;
  * @Author: Johnny Chou
  * @Create: 2017-02-12-19:28
  **/
-public class HeartRate {
+public class HeartRate extends DataEntity<HeartRate> {
 	
 	/**
 	 * 这样的命名法不符合java的规范，但是为了配合数据库命名，目前决定这样命名实体类

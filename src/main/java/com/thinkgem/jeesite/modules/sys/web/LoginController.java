@@ -6,7 +6,6 @@ package com.thinkgem.jeesite.modules.sys.web;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.runbuddy.common.ReplyCollection;
-import com.runbuddy.service.HeartRateServiceI;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.security.shiro.session.SessionDAO;
 import com.thinkgem.jeesite.common.servlet.ValidateCodeServlet;
@@ -50,30 +49,6 @@ public class LoginController extends BaseController {
     @Autowired
     private SessionDAO sessionDAO;
     //method=RequestMethod.POST,
-
-    @RequestMapping(value = "/hearts")
-    @ResponseBody
-    public String upLoadHeartRate(String json) {
-        logger.debug("-->>拦截测试输出");
-        int i = 15;
-        System.out.println("------>>look here:" + i + "测试~~~");
-        return null;
-    }
-    
-
-    @RequestMapping(value="/heartrate")
-    @ResponseBody
-    public ReplyCollection upLoadHeartRate(@RequestBody JSONObject json){
-
-        ReplyCollection reply = new ReplyCollection();
-        logger.debug("-->>拦截测试输出");
-
-        System.out.println("------>>look here:" + json.toJSONString() + "测试~~~");
-        reply.setCode("8888");
-        reply.setMessage("-->>upload successful");
-
-        return reply;
-    }
 
 
     /**
