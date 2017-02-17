@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.runbuddy.common.ReplyCollection;
-import com.thinkgem.jeesite.modules.runbuddy.dao.HeartRateDao;
-import com.thinkgem.jeesite.modules.runbuddy.entity.HeartRate;
 import com.thinkgem.jeesite.modules.runbuddy.service.HeartService;
 import com.thinkgem.jeesite.modules.runbuddy.service.Impl.HeartRateServiceImpl;
+import com.thinkgem.jeesite.modules.sys.dao.HeartRateDao;
+import com.thinkgem.jeesite.modules.sys.entity.HeartRate;
 
 @Controller
 public class HeartRateController {

@@ -6,15 +6,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.service.BaseService;
-import com.thinkgem.jeesite.modules.runbuddy.dao.HeartRateDao;
-import com.thinkgem.jeesite.modules.runbuddy.entity.HeartRate;
+import com.thinkgem.jeesite.modules.sys.dao.HeartRateDao;
+import com.thinkgem.jeesite.modules.sys.entity.HeartRate;
 
 /**
  * 仿照SystemService写的RunBuddy模块service
  */
 @Service
 @Transactional(readOnly = true)
-public class HeartService extends BaseService implements InitializingBean {
+public class HeartService extends BaseService {
 
 	
 	@Autowired
@@ -28,13 +28,7 @@ public class HeartService extends BaseService implements InitializingBean {
 		}
 	}
 	
-	
-	
-	
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		//todo
-	}
+
 
 	
 	

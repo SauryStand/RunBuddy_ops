@@ -3,9 +3,10 @@ package com.thinkgem.jeesite.modules.runbuddy.service.Impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.common.service.CrudService;
-import com.thinkgem.jeesite.modules.runbuddy.dao.HeartRateDao;
-import com.thinkgem.jeesite.modules.runbuddy.entity.HeartRate;
 import com.thinkgem.jeesite.modules.runbuddy.service.HeartService;
+import com.thinkgem.jeesite.modules.sys.dao.HeartRateDao;
+import com.thinkgem.jeesite.modules.sys.entity.HeartRate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

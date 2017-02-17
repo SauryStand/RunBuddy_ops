@@ -1,10 +1,10 @@
-package com.thinkgem.jeesite.modules.runbuddy.dao;
+package com.thinkgem.jeesite.modules.sys.dao;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.runbuddy.entity.HeartRate;
+import com.thinkgem.jeesite.modules.sys.entity.HeartRate;
 
 import java.util.List;
 
