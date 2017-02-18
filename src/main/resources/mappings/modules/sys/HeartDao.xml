@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.HeartRateDao">
+<mapper namespace="com.thinkgem.jeesite.modules.runbuddy.dao.HeartRateDao">
+
+	<resultMap id="HeartResultResult" type="Role">
+		<!-- <id property="id" column="id" /> -->
+		<result property="highestRate" column="highestRate" />
+		<result property="lowestRate" column="lowestRate" />
+		<result property="averageRate" column="averageRate" />
+		<result property="motionState" column="motionState" />
+		<result property="recommendState" column="recommendState" />
+		<result property="execiseTime" column="execiseTime" />
+		<result property="execiseLoad" column="execiseLoad" />
+		<result property="recordDate" column="recordDate" />
+		<collection property="heartRateList" ofType="HeartRate">
+			<id property="id" column="heartRateList.id" />
+		</collection>
+	</resultMap>
 
 	<!-- <resultMap id="BaseResultMap" type="Role"> <result property="highest_rate" 
 		column="HIGHEST_RATE" javaType="string" jdbcType="VARCHAR"/> <result property="lowest_rate" 
@@ -22,7 +37,8 @@
 		*
 		FROM
 		sys_heartrate_data
-		WHERE EXCEISE_TIME=#{EXCEISE_TIME,jdbcType=INTEGER}
+		WHERE
+		EXECISE_TIME=#{EXECISE_TIME,jdbcType=INTEGER}
 	</select>
 
 	<select id="getAllDate">
@@ -34,23 +50,23 @@
 
 	<insert id="insert">
 		INSERT INTO sys_heartrate_data
-		(HIGHEST_RATE,
-		LOWEST_RATE,
-		AVEARAGE_RATE,
-		MOTION_STATE,
-		RECOMMEND_STATE,
-		EXCEISE_TIME,
-		EXECISE_LOAD,
-		RECORD_DATE)
+		(highestRate,
+		lowestRate,
+		averageRate,
+		motionState,
+		recommendState,
+		execiseTime,
+		execiseLoad,
+		recordDate)
 		VALUE
-		(#{HIGHEST_RATE},
-		#{LOWEST_RATE},
-		#{AVEARAGE_RATE},
-		#{MOTION_STATE},
-		#{RECOMMEND_STATE},
-		#{EXCEISE_TIME},
-		#{EXECISE_LOAD},
-		#{RECORD_DATE})
+		(#{highestRate},
+		#{lowestRate},
+		#{averageRate},
+		#{motionState},
+		#{recommendState},
+		#{execiseTime},
+		#{execiseLoad},
+		#{recordDate})
 	</insert>
 
 

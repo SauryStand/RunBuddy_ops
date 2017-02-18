@@ -3,9 +3,9 @@ package com.thinkgem.jeesite.modules.runbuddy.service.Impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.modules.runbuddy.dao.HeartRateDao;
+import com.thinkgem.jeesite.modules.runbuddy.entity.HeartRate;
 import com.thinkgem.jeesite.modules.runbuddy.service.HeartService;
-import com.thinkgem.jeesite.modules.sys.dao.HeartRateDao;
-import com.thinkgem.jeesite.modules.sys.entity.HeartRate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,8 +53,8 @@ public class HeartRateServiceImpl extends CrudService<HeartRateDao,HeartRate>{
                 heartRateBuffer.append(jsonObject.get("HIGHEST_RATE")+ ":" + jsonObject.get("LOWEST_RATE"));
                 String highestRate =  jsonObject.get("HIGHEST_RATE").toString();
                 String lowestRate =  jsonObject.get("LOWEST_RATE").toString();
-                heartRate.setHighest_rate(highestRate);
-                heartRate.setLowest_rate(lowestRate);
+                heartRate.setHighestRate(highestRate);
+                heartRate.setLowestRate(lowestRate);
                 save(heartRate);//保存数据
             }
         }
