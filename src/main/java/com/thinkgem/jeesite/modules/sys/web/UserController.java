@@ -325,11 +325,10 @@ public class UserController extends BaseController {
 	public String showHeartRateChart(HttpServletRequest request, HttpServletResponse response){
 		//do nothing
 		logger.debug("-->>心率视图拦截成功");
-		// TODO: 2017/2/23
-
-
+		// TODO: 2017/2/23  
 		return "redirect:" + adminPath +"modules/heartrate/heartRateChart";
 	}
+
 
     
 //	@InitBinder

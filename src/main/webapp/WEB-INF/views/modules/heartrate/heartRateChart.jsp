@@ -31,7 +31,6 @@
     <tr>
         <th>角色名称</th>
         <shiro:hasPermission name="sys:role:edit">
-
             <th>操作</th>
         </shiro:hasPermission></tr>
     <c:forEach items="${list}" var="role">
