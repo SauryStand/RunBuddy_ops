@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.runbuddy.dao.HeartRateDao">
+
+	<resultMap id="HeartResultResult" type="Role">
+		<!-- <id property="id" column="id" /> -->
+		<result property="highestRate" column="highestRate" />
+		<result property="lowestRate" column="lowestRate" />
+		<result property="averageRate" column="averageRate" />
+		<result property="motionState" column="motionState" />
+		<result property="recommendState" column="recommendState" />
+		<result property="execiseTime" column="execiseTime" />
+		<result property="execiseLoad" column="execiseLoad" />
+		<result property="recordDate" column="recordDate" />
+		<collection property="heartRateList" ofType="HeartRate">
+			<id property="id" column="heartRateList.id" />
+		</collection>
+	</resultMap>
+
+	<!-- <resultMap id="BaseResultMap" type="Role"> <result property="highest_rate" 
+		column="HIGHEST_RATE" javaType="string" jdbcType="VARCHAR"/> <result property="lowest_rate" 
+		column="LOWEST_RATE" javaType="string" jdbcType="VARCHAR"/> <result property="average_rate" 
+		column="AVEARAGE_RATE" javaType="string" jdbcType="VARCHAR"/> <result property="motion_state" 
+		column="MOTION_STATE" javaType="int" jdbcType="INTEGER"/> <result property="recommend_state" 
+		column="RECOMMEND_STATE" javaType="int" jdbcType="INTEGER"/> <result property="execise_time" 
+		column="EXCEISE_TIME" javaType="int" jdbcType="DATE"/> <result property="execise_load" 
+		column="EXECISE_LOAD" javaType="int" jdbcType="INTEGER"/> <result property="record_date" 
+		column="RECORD_DATE" javaType="java.util.Date" jdbcType="DATE"/> </resultMap> -->
+
+	<!-- <sql id="Base_Column_List"> HIGHEST_RATE, LOWEST_RATE, AVEARAGE_RATE, 
+		MOTION_STATE, RECOMMEND_STATE, EXCEISE_TIME, EXECISE_LOAD, RECORD_DATE </sql> -->
+
+	<!-- 或者根据运动时长查询数据 -->
+	<!-- resultMap="BaseResultMap" -->
+	<select id="selectByPrimaryKey">
+		SELECT
+		*
+		FROM
+		sys_heartrate_data
+		WHERE
+		EXECISE_TIME=#{EXECISE_TIME,jdbcType=INTEGER}
+	</select>
+
+	<select id="getAllDate">
+		SELECT
+		*
+		FROM
+		sys_heartrate_data
+	</select>
+
+	<insert id="insert">
+		INSERT INTO sys_heartrate_data
+		(highestRate,
+		lowestRate,
+		averageRate,
+		motionState,
+		recommendState,
+		execiseTime,
+		execiseLoad,
+		recordDate)
+		VALUE
+		(#{highestRate},
+		#{lowestRate},
+		#{averageRate},
+		#{motionState},
+		#{recommendState},
+		#{execiseTime},
+		#{execiseLoad},
+		#{recordDate})
+	</insert>
+
+
+</mapper>

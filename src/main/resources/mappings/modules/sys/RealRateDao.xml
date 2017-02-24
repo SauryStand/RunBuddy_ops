@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.runbuddy.dao.RealTimeRateDao">
+
+<!--    <resultMap id="HeartResultResult" type="Role">
+        &lt;!&ndash; <id property="id" column="id" /> &ndash;&gt;
+        <result property="realTimeRate" column="realTimeRate" />
+        <result property="uploadTime" column="uploadTime" />
+        <result property="recordTime" column="recordTime" />
+        <collection property="RealRateList" ofType="RearTimeRate">
+            <id property="id" column="RealRateList.id" />
+        </collection>
+    </resultMap>-->
+
+    <insert id="insert">
+        INSERT INTO sys_real_heartdate
+        (realTimeRate,
+        uploadTime,
+        recordTime)
+        VALUE
+        (#{realTimeRate},
+        #{uploadTime},
+        #{recordTime})
+    </insert>
+
+
+</mapper>
