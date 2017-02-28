@@ -11,44 +11,35 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>HeartRate Chart example</title>
-    <script language="javascript" type="text/javascript" src="/static/echarts/echarts.common.min.js"></script>
+    <title>200 - 心率显示页面</title>
+    <%@include file="/WEB-INF/views/include/head.jsp" %>
     <script type="text/javascript" src="${ctxStatic}/modules/heartrate/heartRateChart.js"></script>
-
 </head>
 <body>
-<!-- 心率视图 -->
-<div id="heartRateChart" style="width: 600px;height:400px;"></div>
-
-<ul class="nav nav-tabs">
-    <li class="active"><a href="${ctx}/sys/role/">角色列表</a></li>
-    <shiro:hasPermission name="sys:role:edit">
-        <li><a href="${ctx}/sys/role/form">角色添加</a></li>
-    </shiro:hasPermission>
-</ul>
-<sys:message content="${message}"/>
-<table id="contentTable" class="table table-striped table-bordered table-condensed">
-    <tr>
-        <th>角色名称</th>
-        <shiro:hasPermission name="sys:role:edit">
-            <th>操作</th>
-        </shiro:hasPermission></tr>
-    <c:forEach items="${list}" var="role">
+<div class="search" id="queryForm" style=" padding: 0px;margin-bottom: 5px;height: 50px;">
+    <table style="width: 100%;height: 100%;">
         <tr>
-            <td><a href="form?id=${role.id}">${role.name}</a></td>
-            <shiro:hasPermission name="sys:role:edit">
-                <td>
-                    <a href="${ctx}/sys/role/assign?id=${role.id}">分配</a>
-                    <c:if test="${(role.sysData eq fns:getDictValue('是', 'yes_no', '1') && fns:getUser().admin)||!(role.sysData eq fns:getDictValue('是', 'yes_no', '1'))}">
-                        <a href="${ctx}/sys/role/form?id=${role.id}">修改</a>
-                    </c:if>
-                    <a href="${ctx}/sys/role/delete?id=${role.id}"
-                       onclick="return confirmx('确认要删除该角色吗？', this.href)">删除</a>
-                </td>
-            </shiro:hasPermission>
+            <td style="width: 300px;padding-left: 10px;">
+                <a class="mini-button opBtn" onclick="delUser()" plain="false" name="user-option" id="del-user" data-options='{"pId":"del-user"}'>删除</a>
+                <a class="mini-button opBtn" onclick="addUser()" plain="false" name="user-option" id="add-user" data-options='{"pId":"add-user"}'>新增</a>
+            </td>
+            <td>
+                <span style="margin-left: 5px;">用户名/工号：</span>
+                <input id="EMPEE_NAME" name="EMPEE_NAME" class="mini-textbox" style="width:180px;margin-left: 5px;" />
+                <a class="mini-button" onclick="search()" style="margin-left: 5px;">查询</a>
+            </td>
         </tr>
-    </c:forEach>
-</table>
+    </table>
+</div>
+
+
+<div style="width: 100%; height: 180px;">
+    <!-- 心率视图 -->
+    <div id="heartRatePieChart" style="width: 600px;height:280px;"></div>
+    <!-- 柱状图-->
+    <div id="heartRateLineChart" style="width: 600px;height:280px;"></div>
+
+</div>
 
 </body>
 </html>
