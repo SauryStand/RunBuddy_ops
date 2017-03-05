@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.sys.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,13 +27,16 @@ import com.thinkgem.jeesite.modules.sys.service.LogService;
 @RequestMapping(value = "${adminPath}/sys/log")
 public class LogController extends BaseController {
 
+	private static Logger logger = Logger.getLogger(LogController.class);
+
 	@Autowired
 	private LogService logService;
 	
 	@RequiresPermissions("sys:log:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Log log, HttpServletRequest request, HttpServletResponse response, Model model) {
-        Page<Log> page = logService.findPage(new Page<Log>(request, response), log); 
+        Page<Log> page = logService.findPage(new Page<Log>(request, response), log);
+        //logger.debug("log info typing-->>" + page.toString());
         model.addAttribute("page", page);
 		return "modules/sys/logList";
 	}

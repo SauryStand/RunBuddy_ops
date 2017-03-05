@@ -5,6 +5,8 @@ package com.thinkgem.jeesite.modules.sys.utils;
 
 import java.util.List;
 
+import com.thinkgem.jeesite.modules.runbuddy.dao.RealTimeRateDao;
+import com.thinkgem.jeesite.modules.runbuddy.entity.RealTimeRate;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
@@ -28,9 +30,12 @@ import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm.Principa
  */
 public class UserUtils {
 
+	//缓存
 	private static UserDao userDao = SpringContextHolder.getBean(UserDao.class);
 	private static RoleDao roleDao = SpringContextHolder.getBean(RoleDao.class);
 	private static MenuDao menuDao = SpringContextHolder.getBean(MenuDao.class);
+	private static RealTimeRateDao realTimeRateDao = SpringContextHolder.getBean(RealTimeRateDao.class);
+
 
 	public static final String USER_CACHE = "userCache";
 	public static final String USER_CACHE_ID_ = "id_";

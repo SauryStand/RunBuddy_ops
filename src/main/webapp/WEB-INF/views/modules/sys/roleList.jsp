@@ -13,7 +13,7 @@
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<tr><th>角色名称</th><shiro:hasPermission name="sys:role:edit"><th>操作</th></shiro:hasPermission></tr>
-		<c:forEach items="${list}" var="role">
+		<c:forEach items="${list}" var="role"><!--这里传回来了list-->
 			<tr>
 				<td><a href="form?id=${role.id}">${role.name}</a></td>
 				<shiro:hasPermission name="sys:role:edit"><td>

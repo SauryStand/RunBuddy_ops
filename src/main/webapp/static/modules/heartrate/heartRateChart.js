@@ -4,12 +4,16 @@
 $(document).ready(function () {
     //mini.parse();
     initFormatPieChart();
-    //initHeartLineChart();
+    initHeartLineChart();
 });
 
+
+
+
+
+
 function initFormatPieChart() {
-    //if (!inputData) return;
-    //JsVar["heartRateChart"] = echarts.init(document.getElementById('heartRateChart'));
+
     var myChart = echarts.init(document.getElementById('heartRatePieChart'));
     var option = {
         backgroundColor: '#2c343c',
@@ -85,6 +89,7 @@ function initFormatPieChart() {
     };
     myChart.setOption(option);
 }
+
 function initHeartLineChart(){
     var myChart = echarts.init(document.getElementById('heartRateLineChart'));
     var option = {

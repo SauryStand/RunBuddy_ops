@@ -16,30 +16,55 @@
     <script type="text/javascript" src="${ctxStatic}/modules/heartrate/heartRateChart.js"></script>
 </head>
 <body>
-<div class="search" id="queryForm" style=" padding: 0px;margin-bottom: 5px;height: 50px;">
-    <table style="width: 100%;height: 100%;">
+
+<!--心率的form-->
+<form:form id="heartForm" action="/function/heartrate" method="post" class="breadcrumb form-search">
+    <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
+    <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+    <%--<div>--%>
+        <%--<label>心率：</label><input id="realTimeRate" name="title" type="text" maxlength="50" class="input-mini" value="${RealTimeRate.realTimeRate}"/>--%>
+        <%--<label>上传时间：</label><input id="uploadTime" name="createBy.id" type="text" maxlength="50" class="input-mini" value="${RealTimeRate.uploadTime}"/>--%>
+        <%--<label>记录时间：</label><input id="recordTime" name="requestUri" type="text" maxlength="50" class="input-mini" value="${RealTimeRate.recordTime}"/>--%>
+    <%--</div>--%>
+
+    <div style="width: 100%; height: 600px;">
+        <li class="active">
+            <!-- 心率视图 -->
+            <div id="heartRatePieChart" style="width: 50%;height:280px;"></div>
+        </li>
+        <li class="active">
+            <!-- 柱状图-->
+            <div id="heartRateLineChart" style="width: 50%;height:280px;"></div>
+        </li>
+    </div>
+</form:form>
+
+<sys:message content="${message}"/>
+<table id="contentTable" class="table table-striped table-bordered table-condensed">
+    <thead>
+    <tr>
+        <th>心率</th>
+        <th>上传时间</th>
+        <th>记录时间</th>
+
+    </tr>
+    </thead>
+    <tbody><%request.setAttribute("strEnter", "\n");request.setAttribute("strTab", "\t");%>
+    <!--这里传回来了list-->
+    <c:forEach items="${page.list}" var="data">
         <tr>
-            <td style="width: 300px;padding-left: 10px;">
-                <a class="mini-button opBtn" onclick="delUser()" plain="false" name="user-option" id="del-user" data-options='{"pId":"del-user"}'>删除</a>
-                <a class="mini-button opBtn" onclick="addUser()" plain="false" name="user-option" id="add-user" data-options='{"pId":"add-user"}'>新增</a>
-            </td>
-            <td>
-                <span style="margin-left: 5px;">用户名/工号：</span>
-                <input id="EMPEE_NAME" name="EMPEE_NAME" class="mini-textbox" style="width:180px;margin-left: 5px;" />
-                <a class="mini-button" onclick="search()" style="margin-left: 5px;">查询</a>
-            </td>
+            <td>${data.realTimeRate}</td>
+            <td>${data.uploadTime}</td>
+            <td>${data.recordTime}</td>
         </tr>
-    </table>
-</div>
+
+    </c:forEach>
+    </tbody>
+</table>
+<div class="pagination">${page}</div>
 
 
-<div style="width: 100%; height: 180px;">
-    <!-- 心率视图 -->
-    <div id="heartRatePieChart" style="width: 600px;height:280px;"></div>
-    <!-- 柱状图-->
-    <div id="heartRateLineChart" style="width: 600px;height:280px;"></div>
 
-</div>
 
 </body>
 </html>

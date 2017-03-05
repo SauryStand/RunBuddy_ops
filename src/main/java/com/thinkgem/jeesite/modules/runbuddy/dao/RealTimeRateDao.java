@@ -18,4 +18,6 @@ public interface RealTimeRateDao extends CrudDao<RealTimeRate> {
 
     public List<RealTimeRate> getUsefulHeartRate(Date recordTime);//查询什么时候上传的数据
 
+    public List<RealTimeRate> findAllRearRateList(RealTimeRate realTimeRate);//
+
 }

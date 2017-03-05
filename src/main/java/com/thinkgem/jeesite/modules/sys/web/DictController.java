@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.runbuddy.web.HeartRateController;
+import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +39,8 @@ import com.thinkgem.jeesite.modules.sys.service.DictService;
 @RequestMapping(value = "${adminPath}/sys/dict")
 public class DictController extends BaseController {
 
+	private static Logger logger = Logger.getLogger(DictController.class);
+
 	@Autowired
 	private DictService dictService;
 	
@@ -52,6 +56,9 @@ public class DictController extends BaseController {
 	@RequiresPermissions("sys:dict:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Dict dict, HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		logger.debug("--------->>字典测试拦截");
+
 		List<String> typeList = dictService.findTypeList();
 		model.addAttribute("typeList", typeList);
         Page<Dict> page = dictService.findPage(new Page<Dict>(request, response), dict); 

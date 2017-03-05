@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 仿照SystemService写的RunBuddy模块service
@@ -49,9 +50,9 @@ public class HeartService extends BaseService {
 
 	public int saveRealRateArr(RealTimeRate realTimeRate){
 
-
 		return 0;
 	}
+
 	//将事务设为false才能插入数据
 	@Transactional(readOnly = false)
 	public int saveArrHeartRate(JSONArray realRate,String recordTime){
@@ -87,7 +88,13 @@ public class HeartService extends BaseService {
 
 		return 0;
 	}
-	
+
+
+
+	public List<RealTimeRate> findAllRealData(){
+
+		return null;
+	}
 
 
 	

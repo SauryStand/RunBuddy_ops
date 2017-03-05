@@ -11,7 +11,7 @@
             <id property="id" column="RealRateList.id" />
         </collection>
     </resultMap>-->
-
+    <!--插入心率数据-->
     <insert id="insert">
         INSERT INTO sys_real_heartdate
         (realTimeRate,
@@ -22,6 +22,28 @@
         #{uploadTime},
         #{recordTime})
     </insert>
+
+    <!--页面反馈数据-->
+    <select id="findAllRearRateList" resultType="RealTimeRate">
+        SELECT
+        *
+        FROM sys_real_heartdate
+    </select>
+
+    <!--基类需要用到这部分的sql-->
+    <select id="findList" resultType="RealTimeRate">
+        SELECT
+        *
+        FROM sys_real_heartdate
+        ORDER BY recordTime DESC
+    </select>
+
+
+
+
+
+
+
 
 
 </mapper>
