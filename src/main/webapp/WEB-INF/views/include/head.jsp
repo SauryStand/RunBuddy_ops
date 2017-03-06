@@ -19,6 +19,7 @@
 <link href="${ctxStatic}/common/jeesite.css" type="text/css" rel="stylesheet" />
 <script src="${ctxStatic}/common/jeesite.js" type="text/javascript"></script>
 <script type="text/javascript" src="${ctxStatic}/echarts/echarts.common.min.js"></script>
+<script type="text/javascript" src="${ctxStatic}/echarts/echarts-all.js"></script>
 <script type="text/javascript">var ctx = '${ctx}', ctxStatic='${ctxStatic}';</script>
 <!--心率部分-->
 <script type="text/javascript" src="${ctxStatic}/common/heart/config.js"></script>

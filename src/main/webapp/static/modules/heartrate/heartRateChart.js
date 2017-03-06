@@ -4,11 +4,9 @@
 $(document).ready(function () {
     //mini.parse();
     initFormatPieChart();
-    initHeartLineChart();
+    //initHeartLineChart();
+    dymanicHeartChart();//动态图
 });
-
-
-
 
 
 
@@ -26,7 +24,15 @@ function initFormatPieChart() {
                 color: '#ccc'
             }
         },
-
+        toolbox: {
+            show : true,
+//		        x: 'center',
+//		        y: 'bottom',
+            feature : {
+                magicType : {show: true, type: ['line', 'bar']},
+                saveAsImage : {show: true}
+            }
+        },
         tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -90,25 +96,186 @@ function initFormatPieChart() {
     myChart.setOption(option);
 }
 
-function initHeartLineChart(){
+/**
+ * unused
+ */
+function dymanicHeartChartdgs(){
     var myChart = echarts.init(document.getElementById('heartRateLineChart'));
     var option = {
         title : {
-            text: '某地区蒸发量和降水量',
+            text: '动态数据',
             subtext: '纯属虚构'
         },
         tooltip : {
             trigger: 'axis'
         },
         legend: {
-            data:['蒸发量','降水量']
+            data:['最新成交价', '预购队列']
         },
         toolbox: {
             show : true,
             feature : {
+                mark : {show: true},
                 dataView : {show: true, readOnly: false},
                 magicType : {show: true, type: ['line', 'bar']},
                 restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        dataZoom : {
+            show : false,
+            start : 0,
+            end : 100
+        },
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : true,
+                data : (function (){
+                    var now = new Date();
+                    var res = [];
+                    var len = 10;
+                    while (len--) {
+                        res.unshift(now.toLocaleTimeString().replace(/^\D*/,''));
+                        now = new Date(now - 2000);
+                    }
+                    return res;
+                })()
+            },
+            {
+                type : 'category',
+                boundaryGap : true,
+                data : (function (){
+                    var res = [];
+                    var len = 10;
+                    while (len--) {
+                        res.push(len + 1);
+                    }
+                    return res;
+                })()
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value',
+                scale: true,
+                name : '价格',
+                boundaryGap: [0.2, 0.2]
+            },
+            {
+                type : 'value',
+                scale: true,
+                name : '预购量',
+                boundaryGap: [0.2, 0.2]
+            }
+        ],
+        series : [
+            {
+                name:'预购队列',
+                type:'bar',
+                xAxisIndex: 1,
+                yAxisIndex: 1,
+                data:(function (){
+                    var res = [];
+                    var len = 10;
+                    while (len--) {
+                        res.push(Math.round(Math.random() * 1000));
+                    }
+                    return res;
+                })()
+            },
+            {
+                name:'最新成交价',
+                type:'line',
+                data:(function (){
+                    var res = [];
+                    var len = 10;
+                    while (len--) {
+                        res.push((Math.random()*10 + 5).toFixed(1) - 0);
+                    }
+                    return res;
+                })()
+            }
+        ]
+    };
+    myChart.setOption(option);
+
+
+    var timeTicket;
+    var lastData = 11;
+    var axisData;
+    clearInterval(timeTicket);
+    timeTicket = setInterval(function (){
+        lastData += Math.random() * ((Math.round(Math.random() * 10) % 2) == 0 ? 1 : -1);
+        lastData = lastData.toFixed(1) - 0;
+        axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
+
+        // 动态数据接口 addData
+        myChart.addData([
+            [
+                0,        // 系列索引
+                Math.round(Math.random() * 1000), // 新增数据
+                false,     // 新增数据是否从队列头部插入
+                false     // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+            ],
+            [
+                1,        // 系列索引
+                lastData, // 新增数据
+                false,    // 新增数据是否从队列头部插入
+                false,    // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+                axisData  // 坐标轴标签
+            ]
+        ]);
+    }, 2100);
+}
+
+/**
+ * 动态数据
+ */
+function dymanicHeartChart(){
+
+    var lineChart = echarts.init(document.getElementById('heartRateLineChart'));
+    var series1 = new Object();
+    series1["name"]="文件积压量";
+    series1["type"]='bar';
+    series1["data"]=[];
+    var series2 = new Object();
+    series2["name"]="话单积压量";
+    series2["type"]='bar';
+    series2["data"]=[];
+    var xAxisData = [];
+    for(var i = 1 ; i <= 50 ; i++){
+        if(i == 30){
+            series1["data"].push(10 + Math.random() * ((Math.round(Math.random() * 10) % 2) == 0 ? 1 : -1));//这里添加数据
+            series2["data"].push(5 + Math.random() * ((Math.round(Math.random() * 10) % 2) == 0 ? 1 : -1));
+        }else{
+            series1["data"].push(0);
+            series2["data"].push(0);
+        }
+
+    }
+    for(var i=0;i<50 ;i++){
+        xAxisData.push((new Date()).getHours()+":"+(new Date()).getMinutes()+":"+(new Date()).getSeconds());
+    }
+
+    var option = {
+        title : {
+            text: '文件与话单积压',
+            padding : 0
+            //subtext: '近一小时'
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['文件积压量','话单积压量']
+        },
+        toolbox: {
+            show : true,
+//		        x: 'center',
+//		        y: 'bottom',
+            feature : {
+                magicType : {show: true, type: ['line', 'bar']},
                 saveAsImage : {show: true}
             }
         },
@@ -116,7 +283,8 @@ function initHeartLineChart(){
         xAxis : [
             {
                 type : 'category',
-                data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+                boundaryGap : true,
+                data : xAxisData
             }
         ],
         yAxis : [
@@ -125,39 +293,133 @@ function initHeartLineChart(){
             }
         ],
         series : [
-            {
-                name:'蒸发量',
-                type:'bar',
-                data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-                markPoint : {
-                    data : [
-                        {type : 'max', name: '最大值'},
-                        {type : 'min', name: '最小值'}
-                    ]
-                },
-                markLine : {
-                    data : [
-                        {type : 'average', name: '平均值'}
-                    ]
-                }
-            },
-            {
-                name:'降水量',
-                type:'bar',
-                data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-                markPoint : {
-                    data : [
-                        {name : '年最高', value : 182.2, xAxis: 7, yAxis: 183},
-                        {name : '年最低', value : 2.3, xAxis: 11, yAxis: 3}
-                    ]
-                },
-                markLine : {
-                    data : [
-                        {type : 'average', name : '平均值'}
-                    ]
-                }
-            }
+            series1,
+            series2
         ]
     };
-    myChart.setOption(option);
+
+    lineChart.setOption(option);
+
+    var timeTicket;
+    var lastData = 11;
+    var lastData2 = 12;
+    var axisData;
+    clearInterval(timeTicket);
+    timeTicket = setInterval(function(){
+
+        var preOverStock;
+        var collOverStock;
+
+        //动态获取数据库里面关于采集数据的信息
+        //定时获取数据库里面的数据
+        // getJsonDataByPost(Globals.baseActionUrl.FRAME_QUERY_FOR_OBJECT_URL,
+        //     null, null, function success(result) {
+        //         preOverStock = result.PRE_OVERSTOCK;
+        //         collOverStock = result.COLL_OVERSTOCK;
+        //         alert("data1:"+ pre_coll + "," + "data2:" + coll_file);
+        //     }, "monitorMapper.queryAllFileAndTicket", "", false);
+
+        // lastData = preOverStock;
+        // lastData = lastData.toFixed(1) - 0;
+        // lastData2 = collOverStock;
+        // lastData2 = lastData2.toFixed(1) - 0;
+
+        lastData += Math.random() * ((Math.round(Math.random() * 10) % 2) == 0 ? 1 : -1);
+        lastData = lastData.toFixed(1) - 0;
+        lastData2 += Math.random() * ((Math.round(Math.random() * 10) % 2) == 0 ? 1 : -1);
+        lastData2 = lastData.toFixed(1) - 0;
+
+        axisData = (new Date()).getHours()+":"+(new Date()).getMinutes()+":"+(new Date()).getSeconds();//.replace(/^\D*/, '');
+        // 动态数据接口 addData
+        lineChart.addData([ [ 0, // 系列索引
+            lastData2, // 新增数据
+            false, // 新增数据是否从队列头部插入
+            false // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+        ], [ 1, // 系列索引
+            lastData, // 新增数据
+            false, // 新增数据是否从队列头部插入
+            false, // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+            axisData // 坐标轴标签
+        ] ]);
+    }, 2100);
+}
+
+
+/**
+* 动态折线图，大数据展示了这
+ */
+function dymanicLineChart(){
+
+
+
+    function randomData() {
+        now = new Date(+now + oneDay);
+        value = value + Math.random() * 21 - 10;
+        return {
+            name: now.toString(),
+            value: [
+                [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+                Math.round(value)
+            ]
+        }
+    }
+
+    var data = [];
+    var now = +new Date(1997, 9, 3);
+    var oneDay = 24 * 3600 * 1000;
+    var value = Math.random() * 1000;
+    for (var i = 0; i < 1000; i++) {
+        data.push(randomData());
+    }
+
+    option = {
+        title: {
+            text: '动态数据 + 时间坐标轴'
+        },
+        tooltip: {
+            trigger: 'axis',
+            formatter: function (params) {
+                params = params[0];
+                var date = new Date(params.name);
+                return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+            },
+            axisPointer: {
+                animation: false
+            }
+        },
+        xAxis: {
+            type: 'time',
+            splitLine: {
+                show: false
+            }
+        },
+        yAxis: {
+            type: 'value',
+            boundaryGap: [0, '100%'],
+            splitLine: {
+                show: false
+            }
+        },
+        series: [{
+            name: '模拟数据',
+            type: 'line',
+            showSymbol: false,
+            hoverAnimation: false,
+            data: data
+        }]
+    };
+
+    setInterval(function () {
+
+        for (var i = 0; i < 5; i++) {
+            data.shift();
+            data.push(randomData());
+        }
+
+        myChart.setOption({
+            series: [{
+                data: data
+            }]
+        });
+    }, 1000);
 }
