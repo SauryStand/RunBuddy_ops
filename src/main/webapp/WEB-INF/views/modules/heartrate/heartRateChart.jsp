@@ -21,26 +21,17 @@
 <form:form id="heartForm" action="/function/heartrate" method="post" class="breadcrumb form-search">
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-    <%--<div>--%>
-    <%--<label>心率：</label><input id="realTimeRate" name="title" type="text" maxlength="50" class="input-mini" value="${RealTimeRate.realTimeRate}"/>--%>
-    <%--<label>上传时间：</label><input id="uploadTime" name="createBy.id" type="text" maxlength="50" class="input-mini" value="${RealTimeRate.uploadTime}"/>--%>
-    <%--<label>记录时间：</label><input id="recordTime" name="requestUri" type="text" maxlength="50" class="input-mini" value="${RealTimeRate.recordTime}"/>--%>
-    <%--</div>--%>
+    <div>
+    <label>心率：</label><input id="realTimeRate" name="realTimeRate" type="text" maxlength="50" class="input-mini" value="${RealTimeRate.realTimeRate}"/>
+    <label>上传时间：</label><input id="uploadTime" name="uploadTime" type="text" maxlength="50" class="input-mini" value="${RealTimeRate.uploadTime}"/>
+    <label>记录时间：</label><input id="recordTime" name="recordTime" type="text" maxlength="50" class="input-mini" value="${RealTimeRate.recordTime}"/>
+    </div>
 
-    <%--<div style="width: 100%; height: 600px;">--%>
-    <%--<li class="active">--%>
-    <%--<!-- 心率视图 -->--%>
-    <%--<div id="heartRatePieChart" style="width: 50%;height:280px;"></div>--%>
-    <%--</li>--%>
-    <%--<li class="active">--%>
-    <%--<!-- 柱状图-->--%>
-    <%--<div id="heartRateLineChart" style="width: 50%;height:280px;"></div>--%>
-    <%--</li>--%>
-    <%--</div>--%>
 
     <div class="mini-tabs" activeIndex="0"
          style="width:100%;height:350px;margin-top: 20px; padding: 0px;" plain="false"
          tabAlign="left" tabPosition="top">
+        <h1>当天数据显示</h1>
         <div title="预处理环节" style="height: 300px;width: 100%;">
             <div id="heartRatePieChart" style="width: 50%; height: 280px;float:left;margin-top: 20px;">
             </div>
@@ -48,6 +39,18 @@
             </div>
         </div>
     </div>
+
+    <%--<div class="mini-tabs" activeIndex="0"--%>
+         <%--style="width:100%;height:350px;margin-top: 20px; padding: 0px;" plain="false"--%>
+         <%--tabAlign="left" tabPosition="top">--%>
+        <%--<h1>历史心率数据</h1>--%>
+        <%--<div title="预处理环节" style="height: 300px;width: 100%;">--%>
+            <%--<div id="heartRatePieChart2" style="width: 50%; height: 280px;float:left;margin-top: 20px;">--%>
+            <%--</div>--%>
+            <%--<div id="heartRateLineChart2" style="width: 50%; height: 280px;float:left;margin-top: 20px;">--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
 
 
 </form:form>

@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,7 +63,8 @@ public class HeartRateWebController extends BaseController {
     @RequestMapping(value = "/heartrate")
     //@RequestMapping(value = {"heartrate", ""})
     public String list(RealTimeRate real, HttpServletRequest request, HttpServletResponse response, Model model) {
-
+        List<String> list = new ArrayList<String>();
+        String str = "61:0|64:0|71:0|91:0|59:0|59:0|59:0|59:0|59:0";
         logger.debug("------------------------------>>加载心率数组测试");
         //List<RealTimeRate> realList = heartService.findAllRealData();
 
@@ -72,6 +74,40 @@ public class HeartRateWebController extends BaseController {
         Page<RealTimeRate> page = realRateService.findPage(new Page<RealTimeRate>(request, response), real);
         logger.debug("-->>现在输出page日志，查询是否返回心率数据：" + page.toString());
         model.addAttribute("page", page);
+
+        for(RealTimeRate realArr : realList){
+            char[] ch  = realArr.getRealTimeRate().toCharArray();
+            int temp = 1;
+            for (int i = 0; i < ch.length; i++) {
+                if (ch[i] == '|') {
+                    StringBuilder builder = new StringBuilder();
+                    if (temp == 1) {
+                        for (int j = 0; j < i; j++) {
+                            builder.append(ch[j]);
+                        }
+                        for(int k = 0 ; k < i ; k++){
+                            if(ch[i] == ':'){
+                                logger.debug("---------------->>list printing:fdsgdfghfgjghjkgjk");
+                            }
+                        }
+                        list.add(builder + "");
+                        temp = i;
+                        ch[temp] = ',';
+                    } else {
+                        for (int j = temp+1; j < i; j++) {
+                            builder.append(ch[j]);
+                        }
+                        list.add(builder + "");
+                        temp = i;
+                        ch[temp] = ',';
+                    }
+                }
+            }
+        }
+        for(int i = 0 ; i < list.size() ; i++){
+            logger.debug("---------------->>list printing:"+list.get(i).toString());
+        }
+
 
         return "modules/heartrate/heartRateChart";
     }
