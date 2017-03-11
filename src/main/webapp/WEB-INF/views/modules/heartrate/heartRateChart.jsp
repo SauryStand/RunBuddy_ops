@@ -40,19 +40,6 @@
         </div>
     </div>
 
-    <%--<div class="mini-tabs" activeIndex="0"--%>
-         <%--style="width:100%;height:350px;margin-top: 20px; padding: 0px;" plain="false"--%>
-         <%--tabAlign="left" tabPosition="top">--%>
-        <%--<h1>历史心率数据</h1>--%>
-        <%--<div title="预处理环节" style="height: 300px;width: 100%;">--%>
-            <%--<div id="heartRatePieChart2" style="width: 50%; height: 280px;float:left;margin-top: 20px;">--%>
-            <%--</div>--%>
-            <%--<div id="heartRateLineChart2" style="width: 50%; height: 280px;float:left;margin-top: 20px;">--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-
-
 </form:form>
 
 <sys:message content="${message}"/>
@@ -65,11 +52,12 @@
 
     </tr>
     </thead>
-    <tbody><%
+    <tbody>
+    <%
         request.setAttribute("strEnter", "\n");
         request.setAttribute("strTab", "\t");
     %>
-    <!--这里传回来了list-->
+    <!--这里传回来了page,list-->
     <c:forEach items="${page.list}" var="data">
         <tr>
             <td>${data.realTimeRate}</td>

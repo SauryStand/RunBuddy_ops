@@ -3,16 +3,13 @@ package com.thinkgem.jeesite.modules.runbuddy.web;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.runbuddy.entity.RealTimeRate;
-import com.thinkgem.jeesite.modules.runbuddy.service.HeartService;
 import com.thinkgem.jeesite.modules.runbuddy.service.RealRateService;
-import com.thinkgem.jeesite.modules.sys.entity.Dict;
-import com.thinkgem.jeesite.modules.sys.entity.Role;
+import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +44,7 @@ public class HeartRateWebController extends BaseController {
         //do nothing
         ///function/heartrate
         logger.debug("-->>心率视图拦截成功");
-        System.out.println("-->>打印测试，拦截数据啦啊啊啊啊啊啊 啊啊啊啊啊啊啊啊啊啊啊");
+        System.out.println("-->>打印测试，拦截数据 嘿嘿嘿");
         // TODO: 2017/2/23
         return "modules/heartrate/heartRateChart";
     }
@@ -57,8 +54,7 @@ public class HeartRateWebController extends BaseController {
      *
      * @param real
      * @param model
-     * @return
-     */
+     * @return     */
     @RequiresPermissions("sys:user:function")
     @RequestMapping(value = "/heartrate")
     //@RequestMapping(value = {"heartrate", ""})
@@ -85,11 +81,6 @@ public class HeartRateWebController extends BaseController {
                         for (int j = 0; j < i; j++) {
                             builder.append(ch[j]);
                         }
-                        for(int k = 0 ; k < i ; k++){
-                            if(ch[i] == ':'){
-                                logger.debug("---------------->>list printing:fdsgdfghfgjghjkgjk");
-                            }
-                        }
                         list.add(builder + "");
                         temp = i;
                         ch[temp] = ',';
@@ -104,8 +95,26 @@ public class HeartRateWebController extends BaseController {
                 }
             }
         }
+        //進一步分離
+        //放上面為了減少系統開銷，不用每次有new一個stringBuilder
+        StringBuilder builder = new StringBuilder();
         for(int i = 0 ; i < list.size() ; i++){
-            logger.debug("---------------->>list printing:"+list.get(i).toString());
+            char[] ch  = list.get(i).toString().toCharArray();
+            for(int j = 0 ; i < ch.length ; j++){
+                if(ch[j] == ':'){
+                    for(int m = 0 ; m < j ; m++){
+                        builder.append(ch[m]);
+                    }
+                    logger.debug("-------asd--------->>list printing:"+builder.toString());
+                }
+                builder = null;
+
+
+            }
+
+
+
+            //logger.debug("---------------->>list printing:"+list.get(i).toString());
         }
 
 
