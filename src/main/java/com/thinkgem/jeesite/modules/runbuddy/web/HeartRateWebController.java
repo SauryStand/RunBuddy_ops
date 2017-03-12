@@ -2,6 +2,7 @@ package com.thinkgem.jeesite.modules.runbuddy.web;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.runbuddy.entity.Rate;
 import com.thinkgem.jeesite.modules.runbuddy.entity.RealTimeRate;
 import com.thinkgem.jeesite.modules.runbuddy.service.RealRateService;
 import org.apache.log4j.Logger;
@@ -63,8 +64,7 @@ public class HeartRateWebController extends BaseController {
         String str = "61:0|64:0|71:0|91:0|59:0|59:0|59:0|59:0|59:0";
         logger.debug("------------------------------>>加载心率数组测试");
         //List<RealTimeRate> realList = heartService.findAllRealData();
-
-        List<RealTimeRate> realList = realRateService.findAllRearRateList();//查询数据
+        List<RealTimeRate> realList = realRateService.findAllRearRateList();//查询所有心率数据
         logger.debug("------------------------------>>加载心率数组测试,数据打印:" + realList.toString());
         model.addAttribute("list", realList);
         Page<RealTimeRate> page = realRateService.findPage(new Page<RealTimeRate>(request, response), real);
@@ -72,7 +72,7 @@ public class HeartRateWebController extends BaseController {
         model.addAttribute("page", page);
 
         for(RealTimeRate realArr : realList){
-            char[] ch  = realArr.getRealTimeRate().toCharArray();
+            char[] ch  = realArr.getRealTimeRate().toCharArray();//这里把读到的RealRate放进来
             int temp = 1;
             for (int i = 0; i < ch.length; i++) {
                 if (ch[i] == '|') {
@@ -95,28 +95,31 @@ public class HeartRateWebController extends BaseController {
                 }
             }
         }
-        //進一步分離
+        //進一步分離 :
         //放上面為了減少系統開銷，不用每次有new一個stringBuilder
         StringBuilder builder = new StringBuilder();
+        List<Rate> splitRealArr = new ArrayList<Rate>();
+
         for(int i = 0 ; i < list.size() ; i++){
             char[] ch  = list.get(i).toString().toCharArray();
-            for(int j = 0 ; i < ch.length ; j++){
+            for(int j = 0 ; j < ch.length ; j++){
                 if(ch[j] == ':'){
+                    Rate temp = new Rate();//需要放在这里，因为放在外面你想想一直都是用的同一个对象，所有数组都会是同样的
                     for(int m = 0 ; m < j ; m++){
                         builder.append(ch[m]);
                     }
-                    logger.debug("-------asd--------->>list printing:"+builder.toString());
+                    temp.setRealRate(builder+"");//添加心率
+                    temp.setStatus(ch[j+1]+"");//添加状态,0,表示有效,1，表示无效
+                    splitRealArr.add(temp);//即加入real数组
+                    //清空StringBuilder
+                    builder.setLength(0);
+                    builder.delete(0,builder.length());
                 }
-                builder = null;
-
-
             }
-
-
-
-            //logger.debug("---------------->>list printing:"+list.get(i).toString());
         }
-
+        for(int i = 0 ; i < splitRealArr.size();i++){
+            logger.debug("---------------->>这是打印Rate数组：:" + splitRealArr.get(i).getRealRate() + "," + splitRealArr.get(i).getStatus());
+        }
 
         return "modules/heartrate/heartRateChart";
     }

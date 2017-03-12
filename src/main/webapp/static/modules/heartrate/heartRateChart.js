@@ -8,7 +8,13 @@ $(document).ready(function () {
     dymanicHeartChart();//动态图
 });
 
+/**
+ * 返回前台的心率数据啦
+ * todo
+ */
+function loadRateData(){
 
+}
 
 function initFormatPieChart() {
 
