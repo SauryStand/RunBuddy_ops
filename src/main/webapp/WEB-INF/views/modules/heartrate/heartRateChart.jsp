@@ -25,6 +25,7 @@
     <label>心率：</label><input id="realTimeRate" name="realTimeRate" type="text" maxlength="50" class="input-mini" value="${RealTimeRate.realTimeRate}"/>
     <label>上传时间：</label><input id="uploadTime" name="uploadTime" type="text" maxlength="50" class="input-mini" value="${RealTimeRate.uploadTime}"/>
     <label>记录时间：</label><input id="recordTime" name="recordTime" type="text" maxlength="50" class="input-mini" value="${RealTimeRate.recordTime}"/>
+        &nbsp;&nbsp;&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>&nbsp;&nbsp;
     </div>
 
 
@@ -46,10 +47,9 @@
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
-        <th>心率</th>
+        <th>心率数据集</th>
         <th>上传时间</th>
         <th>记录时间</th>
-
     </tr>
     </thead>
     <tbody>
@@ -60,13 +60,23 @@
     <!--这里传回来了page,list-->
     <c:forEach items="${page.list}" var="data">
         <tr>
-            <td>${data.realTimeRate}</td>
-            <td>${data.uploadTime}</td>
-            <td>${data.recordTime}</td>
-        </tr>
+            <td id="real_realTimeRate">${data.realTimeRate}</td>
+            <td id="real_uploadTime">${data.uploadTime}</td>
+            <td id="real_recordTime">${data.recordTime}</td>
 
+            <%--<td id="real_realTimeRate"><c:out value="${data.realTimeRate}" /></td>--%>
+            <%--<td id="real_uploadTime"><c:out value="${data.uploadTime}" /></td>--%>
+            <%--<td id="real_recordTime"><c:out value="${data.recordTime}" /></td>--%>
+
+        .</tr>
     </c:forEach>
+
+
+
     </tbody>
+
+
+
 </table>
 <div class="pagination">${page}</div>
 

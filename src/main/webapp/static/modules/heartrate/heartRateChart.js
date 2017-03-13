@@ -4,8 +4,10 @@
 $(document).ready(function () {
     //mini.parse();
     initFormatPieChart();
-    //initHeartLineChart();
     dymanicHeartChart();//动态图
+    loadRateData();//这样的尝试
+    // var testing = document.getElementById("real_realTimeRate").value();
+    // alert(testing);
 });
 
 /**
@@ -13,8 +15,33 @@ $(document).ready(function () {
  * todo
  */
 function loadRateData(){
+    //var myArr = new Array();
+    alert("here is come into ...");
+    var real_realTimeRate = $("real_realTimeRate");
+    var real_uploadTime = $("real_uploadTime").val();
+    var real_recordTime = $("real_recordTime").val();
+
+    //var myArr = $("data").val();
+    //alert("--show data-->>"+real_realTimeRate+","+myArr.length);
+    //var valueR = document.getElementsByName($("#data.realTimeRate"));
+
+    // for(var i = 0 ; i < testing.length ; i++){
+    //     alert("-->>" + testing.toString());
+    // }
+
+    var table = document.getElementById("contentTable");
+    var child = table.getElementsByTagName("real_realTimeRate").toString();
+    var test = child.length;
+    var child2 = table.getElementsByTagName("real_uploadTime");
+    var child3 = table.getElementsByTagName("real_recordTime").innerHTML;
+    alert("-->>"+child+","+child2+","+child3+",---"+test);
+
+
 
 }
+
+
+
 
 function initFormatPieChart() {
 
@@ -241,11 +268,11 @@ function dymanicHeartChartdgs(){
 function dymanicHeartChart(){
 
     var lineChart = echarts.init(document.getElementById('heartRateLineChart'));
-    var series1 = new Object();
+    var series1 = {};
     series1["name"]="文件积压量";
     series1["type"]='bar';
     series1["data"]=[];
-    var series2 = new Object();
+    var series2 = {};
     series2["name"]="话单积压量";
     series2["type"]='bar';
     series2["data"]=[];

@@ -9,7 +9,7 @@ Globals.baseActionUrl = {
     //插入对象
     FRAME_INSERT_OBJECT_URL :Globals.ctx +"/core/insertObject",
     //批量插入对象
-    FRAME_INSERT_BATCH_OBJECT_URL :Globals.ctx +"/core/insertBatchObject",
+    FRAME_INSERT_BATCH_OBJECT_URL :Globals.ctx +"/core/insertBatchObject"
     //更新对象
 
     
@@ -20,7 +20,7 @@ Globals.baseJspUrl = {
    //用户管理--增加和修改页面
    USER_JSP_ADD_EDIT_URL: Globals.ctx + "/jsp/setting/sysmanage/user/addEditUser",
     //详情
-    USER_JSP_VIEW_EDIT_URL: Globals.ctx + "/jsp/setting/sysmanage/user/viewUser",
+    USER_JSP_VIEW_EDIT_URL: Globals.ctx + "/jsp/setting/sysmanage/user/viewUser"
     //用户管理--增加和修改页面
 
 };

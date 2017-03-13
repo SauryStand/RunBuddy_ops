@@ -61,15 +61,15 @@ public class HeartRateWebController extends BaseController {
     //@RequestMapping(value = {"heartrate", ""})
     public String list(RealTimeRate real, HttpServletRequest request, HttpServletResponse response, Model model) {
         List<String> list = new ArrayList<String>();
-        String str = "61:0|64:0|71:0|91:0|59:0|59:0|59:0|59:0|59:0";
         logger.debug("------------------------------>>加载心率数组测试");
         //List<RealTimeRate> realList = heartService.findAllRealData();
         List<RealTimeRate> realList = realRateService.findAllRearRateList();//查询所有心率数据
         logger.debug("------------------------------>>加载心率数组测试,数据打印:" + realList.toString());
-        model.addAttribute("list", realList);
+
         Page<RealTimeRate> page = realRateService.findPage(new Page<RealTimeRate>(request, response), real);
+
         logger.debug("-->>现在输出page日志，查询是否返回心率数据：" + page.toString());
-        model.addAttribute("page", page);
+
 
         for(RealTimeRate realArr : realList){
             char[] ch  = realArr.getRealTimeRate().toCharArray();//这里把读到的RealRate放进来
@@ -121,7 +121,16 @@ public class HeartRateWebController extends BaseController {
             logger.debug("---------------->>这是打印Rate数组：:" + splitRealArr.get(i).getRealRate() + "," + splitRealArr.get(i).getStatus());
         }
 
+//        for(int i = 0 ; i < realList.size() ; i++){
+//
+//        }
+        //model.addAttribute("realArr", splitRealArr);
+        //model.addAttribute("page", page);
+        model.addAttribute("list", realList);
+        model.addAttribute("page", page);
+
         return "modules/heartrate/heartRateChart";
+
     }
 
 
