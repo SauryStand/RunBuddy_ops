@@ -5,10 +5,16 @@ $(document).ready(function () {
     //mini.parse();
     initFormatPieChart();
     dymanicHeartChart();//动态图
-    loadRateData();//这样的尝试
+    //loadRateData();//这样的尝试
     // var testing = document.getElementById("real_realTimeRate").value();
     // alert(testing);
 });
+
+
+
+function getAllData(data){
+    alert("viva la vida:"+data);
+}
 
 /**
  * 返回前台的心率数据啦
@@ -47,10 +53,9 @@ function initFormatPieChart() {
 
     var myChart = echarts.init(document.getElementById('heartRatePieChart'));
     var option = {
-        backgroundColor: '#2c343c',
-
+        // backgroundColor: '#2c343c',
         title: {
-            text: 'Customized Pie',
+            text: '心率统计饼图v1.0',
             left: 'center',
             top: 20,
             textStyle: {
@@ -86,11 +91,11 @@ function initFormatPieChart() {
                 radius : '55%',
                 center: ['50%', '50%'],
                 data:[
-                    {value:335, name:'直接访问'},
-                    {value:310, name:'邮件营销'},
-                    {value:274, name:'联盟广告'},
-                    {value:235, name:'视频广告'},
-                    {value:400, name:'搜索引擎'}
+                    {value:735, name:'100-130之间心率计数'},
+                    {value:310, name:'80-100之间心率计数'},
+                    {value:274, name:'>130心率记录'},
+                    {value:235, name:'50-60之间心率计数'},
+                    {value:400, name:'<50心率计数'}
                 ].sort(function (a, b) { return a.value - b.value}),
                 roseType: 'angle',
                 label: {

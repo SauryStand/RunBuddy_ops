@@ -1,3 +1,6 @@
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.thinkgem.jeesite.modules.runbuddy.entity.RealTimeRate" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <%--
@@ -58,18 +61,21 @@
         request.setAttribute("strTab", "\t");
     %>
     <!--这里传回来了page,list-->
-    <c:forEach items="${page.list}" var="data">
+    <c:forEach items="${page.list}" var="realdata">
         <tr>
-            <td id="real_realTimeRate">${data.realTimeRate}</td>
-            <td id="real_uploadTime">${data.uploadTime}</td>
-            <td id="real_recordTime">${data.recordTime}</td>
-
+            <td id="real_realTimeRate">${realdata.realTimeRate}</td>
+            <td id="real_uploadTime">${realdata.uploadTime}</td>
+            <td id="real_recordTime">${realdata.recordTime}</td>
             <%--<td id="real_realTimeRate"><c:out value="${data.realTimeRate}" /></td>--%>
             <%--<td id="real_uploadTime"><c:out value="${data.uploadTime}" /></td>--%>
             <%--<td id="real_recordTime"><c:out value="${data.recordTime}" /></td>--%>
-
-        .</tr>
+        </tr>
     </c:forEach>
+
+    <c:set var="jsonArr" value="${realdata}"></c:set>
+    <c:out value="jsonArr"></c:out>
+
+    <a type="button" id="getList" onclick="getAllData(${realdata})">显示显示</a>
 
 
 

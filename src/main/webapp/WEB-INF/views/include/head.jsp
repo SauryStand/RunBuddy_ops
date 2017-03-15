@@ -21,5 +21,7 @@
 <script type="text/javascript" src="${ctxStatic}/echarts/echarts.common.min.js"></script>
 <script type="text/javascript" src="${ctxStatic}/echarts/echarts-all.js"></script>
 <script type="text/javascript">var ctx = '${ctx}', ctxStatic='${ctxStatic}';</script>
+<!--miniui-->
+<script type="text/javascript" src="${ctxStatic}/common/heart/utilMiniui.js"></script>
 <!--心率部分-->
 <script type="text/javascript" src="${ctxStatic}/common/heart/config.js"></script>
