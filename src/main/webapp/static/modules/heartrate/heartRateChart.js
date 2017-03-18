@@ -13,7 +13,8 @@ $(document).ready(function () {
 
 
 function getAllData(data){
-    alert("viva la vida:"+data);
+    //alert("viva la vida:"+data);
+    loadRateData();
 }
 
 /**
@@ -21,32 +22,14 @@ function getAllData(data){
  * todo
  */
 function loadRateData(){
+    console.info(dataArray);
+    console.log(dataArray);
     //var myArr = new Array();
-    alert("here is come into ...");
-    var real_realTimeRate = $("real_realTimeRate");
-    var real_uploadTime = $("real_uploadTime").val();
-    var real_recordTime = $("real_recordTime").val();
-
-    //var myArr = $("data").val();
-    //alert("--show data-->>"+real_realTimeRate+","+myArr.length);
-    //var valueR = document.getElementsByName($("#data.realTimeRate"));
-
-    // for(var i = 0 ; i < testing.length ; i++){
-    //     alert("-->>" + testing.toString());
-    // }
-
-    var table = document.getElementById("contentTable");
-    var child = table.getElementsByTagName("real_realTimeRate").toString();
-    var test = child.length;
-    var child2 = table.getElementsByTagName("real_uploadTime");
-    var child3 = table.getElementsByTagName("real_recordTime").innerHTML;
-    alert("-->>"+child+","+child2+","+child3+",---"+test);
-
-
+    for(var i = 0 ; i < dataArray.length ; i++){
+        alert("-->>" + dataArray[i].realRate+"####"+dataArray[i].status);
+    }
 
 }
-
-
 
 
 function initFormatPieChart() {

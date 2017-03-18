@@ -16,6 +16,19 @@
 <head>
     <title>200 - 心率显示页面</title>
     <%@include file="/WEB-INF/views/include/head.jsp" %>
+
+    <script type="text/javascript">
+        dataArray = new Array();
+        <c:forEach  items="${page.realArr}" var="realdata2">
+            dataArray.push({
+                realRate:"${realdata2.realRate}",
+                status:"${realdata2.status}"
+            });
+        </c:forEach>
+
+        <%--dataArray = ${page.list};//赋值给js--%>
+    </script>
+
     <script type="text/javascript" src="${ctxStatic}/modules/heartrate/heartRateChart.js"></script>
 </head>
 <body>
@@ -59,11 +72,12 @@
     <%
         request.setAttribute("strEnter", "\n");
         request.setAttribute("strTab", "\t");
+
     %>
     <!--这里传回来了page,list-->
-    <c:forEach items="${page.list}" var="realdata">
+    <c:forEach  items="${page.list}" var="realdata">
         <tr>
-            <td id="real_realTimeRate">${realdata.realTimeRate}</td>
+            <td id="real_realTimeRate"  >${realdata.realTimeRate}</td>
             <td id="real_uploadTime">${realdata.uploadTime}</td>
             <td id="real_recordTime">${realdata.recordTime}</td>
             <%--<td id="real_realTimeRate"><c:out value="${data.realTimeRate}" /></td>--%>
@@ -72,10 +86,8 @@
         </tr>
     </c:forEach>
 
-    <c:set var="jsonArr" value="${realdata}"></c:set>
-    <c:out value="jsonArr"></c:out>
 
-    <a type="button" id="getList" onclick="getAllData(${realdata})">显示显示</a>
+    <a type="text" id="getList"  onclick="getAllData()">统计心率数据</a>
 
 
 
