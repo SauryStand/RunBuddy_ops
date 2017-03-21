@@ -2,20 +2,15 @@ package com.thinkgem.jeesite.modules.runbuddy.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.thinkgem.jeesite.common.service.BaseService;
+import com.thinkgem.jeesite.modules.runbuddy.dao.HeartRateDao;
 import com.thinkgem.jeesite.modules.runbuddy.dao.RealTimeRateDao;
+import com.thinkgem.jeesite.modules.runbuddy.entity.HeartRate;
 import com.thinkgem.jeesite.modules.runbuddy.entity.RealTimeRate;
-import com.thinkgem.jeesite.modules.runbuddy.web.HeartRateController;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thinkgem.jeesite.common.service.BaseService;
-import com.thinkgem.jeesite.modules.runbuddy.dao.HeartRateDao;
-import com.thinkgem.jeesite.modules.runbuddy.entity.HeartRate;
-
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,7 +25,6 @@ import java.util.List;
 public class HeartService extends BaseService {
 
 	//private static Logger logger = Logger.getLogger(HeartService.class);
-
 	@Autowired
 	private HeartRateDao heartRateDao;
 

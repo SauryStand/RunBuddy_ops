@@ -26,7 +26,7 @@ function loadRateData(){
     console.log(dataArray);
     //var myArr = new Array();
     for(var i = 0 ; i < dataArray.length ; i++){
-        alert("-->>" + dataArray[i].realRate+"####"+dataArray[i].status);
+        alert("-->>" + dataArray[i].realTimeRate+"####"+dataArray[i].uploadTime);
     }
 
 }

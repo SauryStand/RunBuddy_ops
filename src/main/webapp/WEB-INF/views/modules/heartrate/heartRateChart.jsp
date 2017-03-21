@@ -19,15 +19,27 @@
 
     <script type="text/javascript">
         dataArray = new Array();
-        <c:forEach  items="${page.realArr}" var="realdata2">
+        <c:forEach  items="${page.list}" var="realdata2">
             dataArray.push({
-                realRate:"${realdata2.realRate}",
-                status:"${realdata2.status}"
+                realTimeRate:"${realdata2.realTimeRate}",
+                uploadTime:"${realdata2.uploadTime}"
             });
         </c:forEach>
-
         <%--dataArray = ${page.list};//赋值给js--%>
     </script>
+
+    <%--<script type="text/javascript">--%>
+        <%--dataArray3 = new Array();--%>
+        <%--<c:forEach  items="${page.splitRealArr}" var="realdata3">--%>
+        <%--dataArray3.push({--%>
+            <%--realRate:"${realdata3.realRate}",--%>
+            <%--status:"${realdata3.status}"--%>
+        <%--});--%>
+        <%--</c:forEach>--%>
+        <%--&lt;%&ndash;dataArray = ${page.list};//赋值给js&ndash;%&gt;--%>
+    <%--</script>--%>
+
+
 
     <script type="text/javascript" src="${ctxStatic}/modules/heartrate/heartRateChart.js"></script>
 </head>

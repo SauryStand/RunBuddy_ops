@@ -19,7 +19,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class RealRateService extends CrudService<RealTimeRateDao,RealTimeRate> {
 
-
     /**
      * 页面显示的查询出来的list数组
      * @return

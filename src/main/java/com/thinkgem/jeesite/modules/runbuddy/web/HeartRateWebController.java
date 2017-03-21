@@ -61,13 +61,13 @@ public class HeartRateWebController extends BaseController {
     //@RequestMapping(value = {"heartrate", ""})
     public String list(RealTimeRate real, HttpServletRequest request, HttpServletResponse response, Model model) {
         List<String> list = new ArrayList<String>();
-        Rate rate = new Rate();
+        Rate rateModel = new Rate();
         logger.debug("------------------------------>>加载心率数组测试");
         //List<RealTimeRate> realList = heartService.findAllRealData();
         List<RealTimeRate> realList = realRateService.findAllRearRateList();//查询所有心率数据
         logger.debug("------------------------------>>加载心率数组测试,数据打印:" + realList.toString());
         Page<RealTimeRate> page = realRateService.findPage(new Page<RealTimeRate>(request, response), real);
-        Page<Rate> page2 = realRateService.findPage(new Page<Rate>(request, response), rate);
+        Page<Rate> page2 = realRateService.findPage(new Page<Rate>(request, response), rateModel);
         logger.debug("-->>现在输出page日志，查询是否返回心率数据：" + page.toString());
 
         for(RealTimeRate realArr : realList){
@@ -122,7 +122,7 @@ public class HeartRateWebController extends BaseController {
 //        for(int i = 0 ; i < realList.size() ; i++){
 //
 //        }
-        model.addAttribute("realArr", splitRealArr);
+        //model.addAttribute("realArr", splitRealArr);
         model.addAttribute("list", realList);
         model.addAttribute("page", page);
         //这里要做啥？？
