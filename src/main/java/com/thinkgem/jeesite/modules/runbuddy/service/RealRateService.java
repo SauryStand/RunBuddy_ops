@@ -27,6 +27,9 @@ public class RealRateService extends CrudService<RealTimeRateDao,RealTimeRate> {
         return dao.findAllRearRateList(new RealTimeRate());
     }
 
+    /**
+     * 其实这些类也没起多大作用
+     */
 
 
 }

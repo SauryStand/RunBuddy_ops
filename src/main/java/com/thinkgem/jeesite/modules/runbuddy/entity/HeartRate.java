@@ -15,11 +15,7 @@ import org.hibernate.validator.constraints.Length;
  **/
 public class HeartRate extends DataEntity<HeartRate> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
 	private String highestRate;// HIGHEST_RATE
 	private String lowestRate;
 	private String averageRate;
