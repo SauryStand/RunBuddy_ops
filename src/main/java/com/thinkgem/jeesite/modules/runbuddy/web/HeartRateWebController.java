@@ -121,8 +121,8 @@ public class HeartRateWebController extends BaseController {
             logger.debug("---------------->>这是打印Rate数组：:" + splitRealArr.get(i).getRealRate() + "," + splitRealArr.get(i).getStatus());
         }
 
-        model.addAttribute("realArr", splitRealArr);
-        model.addAttribute("page2",page2);//并没有什么实际意义的返回前台数据，只是为了往前台发送我处理好的string而已
+        //model.addAttribute("realArr", splitRealArr);
+        //model.addAttribute("page2",page2);//并没有什么实际意义的返回前台数据，只是为了往前台发送我处理好的string而已
         model.addAttribute("list", realList);
         model.addAttribute("page", page);
         //这里要做啥？？

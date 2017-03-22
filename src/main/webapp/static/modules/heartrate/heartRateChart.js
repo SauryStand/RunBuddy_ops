@@ -24,15 +24,15 @@ function getAllData(data){
 function loadRateData(){
     console.info(dataArray);
     console.log(dataArray);
-    console.info(dataArray3);
-    console.log(dataArray3);
+    // console.info(dataArray3);
+    // console.log(dataArray3);
     //var myArr = new Array();
     for(var i = 0 ; i < dataArray.length ; i++){
         alert("-->>" + dataArray[i].realTimeRate+"####"+dataArray[i].uploadTime);
     }
-    for(var i = 0 ; i < dataArray3.length ; i++){
-        alert("-->>" + dataArray3[i].realRate+"####"+dataArray3[i].status);
-    }
+    // for(var i = 0 ; i < dataArray3.length ; i++){
+    //     alert("-->>" + dataArray3[i].realRate+"####"+dataArray3[i].status);
+    // }
 
 }
 

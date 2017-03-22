@@ -1,5 +1,6 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.thinkgem.jeesite.modules.runbuddy.entity.RealTimeRate" %>
+<%@ page import="com.thinkgem.jeesite.modules.runbuddy.entity.Rate" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
@@ -23,21 +24,23 @@
             dataArray.push({
                 realTimeRate:"${realdata2.realTimeRate}",
                 uploadTime:"${realdata2.uploadTime}"
+                <%--realRate:"${realdata.realRate}",--%>
+                <%--status:"${realdata.status}"--%>
             });
         </c:forEach>
         <%--dataArray = ${page.list};//赋值给js--%>
     </script>
 
-    <script type="text/javascript">
-        dataArray3 = new Array();
-        <c:forEach  items="${page2.splitRealArr}" var="realdata3">
-            dataArray3.push({
-                realRate:"${realdata3.realRate}",
-                status:"${realdata3.status}"
-            });
-        </c:forEach>
-        <%--dataArray = ${page.list};//赋值给js--%>
-    </script>
+    <%--<script type="text/javascript">--%>
+        <%--dataArray3 = new Array();--%>
+        <%--<c:forEach  items="${page.splitRealArr}" var="realdata3">--%>
+            <%--dataArray3.push({--%>
+                <%--realRate:"${realdata3.realRate}",--%>
+                <%--status:"${realdata3.status}"--%>
+            <%--});--%>
+        <%--</c:forEach>--%>
+        <%--&lt;%&ndash;dataArray = ${page.list};//赋值给js&ndash;%&gt;--%>
+    <%--</script>--%>
 
 
 
