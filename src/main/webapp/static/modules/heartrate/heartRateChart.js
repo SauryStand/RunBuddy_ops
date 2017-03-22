@@ -7,12 +7,12 @@ $(document).ready(function () {
     dymanicHeartChart();//动态图
     //loadRateData();//这样的尝试
     // var testing = document.getElementById("real_realTimeRate").value();
-    // alert(testing);
+    loadRateData();
 });
 
 
-
-function getAllData(data){
+//点击按钮返回数据
+function getAllData(){
     //alert("viva la vida:"+data);
     loadRateData();
 }
@@ -24,17 +24,30 @@ function getAllData(data){
 function loadRateData(){
     console.info(dataArray);
     console.log(dataArray);
-    // console.info(dataArray3);
-    // console.log(dataArray3);
+    console.info(dataArray3);
+    console.log(dataArray3);
     //var myArr = new Array();
     for(var i = 0 ; i < dataArray.length ; i++){
         alert("-->>" + dataArray[i].realTimeRate+"####"+dataArray[i].uploadTime);
     }
-    // for(var i = 0 ; i < dataArray3.length ; i++){
-    //     alert("-->>" + dataArray3[i].realRate+"####"+dataArray3[i].status);
-    // }
+    for(var i = 0 ; i < dataArray3.length ; i++){
+        alert("-->>" + dataArray3[i].realRate+"####"+dataArray3[i].status);
+    }
 
 }
+/**
+ * 字符串加工
+ */
+function processString(rateString){
+    if(!rateString){
+        alert("no data!");
+    }
+    var list = [];
+
+
+
+}
+
 
 
 function initFormatPieChart() {

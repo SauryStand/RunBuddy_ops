@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +64,8 @@ public class HeartRateWebController extends BaseController {
     public String list(RealTimeRate real, HttpServletRequest request, HttpServletResponse response, Model model) {
         List<String> list = new ArrayList<String>();
         Rate rateModel = new Rate();
+        HttpSession session = request.getSession();
+
         logger.debug("------------------------------>>加载心率数组测试");
         //List<RealTimeRate> realList = heartService.findAllRealData();
         List<RealTimeRate> realList = realRateService.findAllRearRateList();//查询所有心率数据
@@ -125,6 +128,7 @@ public class HeartRateWebController extends BaseController {
         //model.addAttribute("page2",page2);//并没有什么实际意义的返回前台数据，只是为了往前台发送我处理好的string而已
         model.addAttribute("list", realList);
         model.addAttribute("page", page);
+        session.setAttribute("realArr",splitRealArr);
         //这里要做啥？？
         return "modules/heartrate/heartRateChart";
 

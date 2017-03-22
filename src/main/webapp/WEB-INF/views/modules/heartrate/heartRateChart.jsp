@@ -31,16 +31,16 @@
         <%--dataArray = ${page.list};//赋值给js--%>
     </script>
 
-    <%--<script type="text/javascript">--%>
-        <%--dataArray3 = new Array();--%>
-        <%--<c:forEach  items="${page.splitRealArr}" var="realdata3">--%>
-            <%--dataArray3.push({--%>
-                <%--realRate:"${realdata3.realRate}",--%>
-                <%--status:"${realdata3.status}"--%>
-            <%--});--%>
-        <%--</c:forEach>--%>
-        <%--&lt;%&ndash;dataArray = ${page.list};//赋值给js&ndash;%&gt;--%>
-    <%--</script>--%>
+    <script type="text/javascript">
+        dataArray3 = new Array();
+        <c:forEach  items="${realArr}" var="realdata3">
+            dataArray3.push({
+                realRate:"${realdata3.realRate}",
+                status:"${realdata3.status}"
+            });
+        </c:forEach>
+        <%--dataArray = ${page.list};//赋值给js--%>
+    </script>
 
 
 
@@ -102,15 +102,12 @@
     </c:forEach>
 
 
-    <a type="text" id="getList"  onclick="getAllData()">统计心率数据</a>
-
-
-
     </tbody>
 
-
-
 </table>
+<div>
+    <a type="buttom" id="getList"  onclick="getAllData()">统计心率数据</a>
+</div>
 <div class="pagination">${page}</div>
 
 
