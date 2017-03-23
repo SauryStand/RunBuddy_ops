@@ -3,7 +3,6 @@
 
 $(document).ready(function () {
     //mini.parse();
-    initFormatPieChart();
     dymanicHeartChart();//动态图
     //loadRateData();//这样的尝试
     // var testing = document.getElementById("real_realTimeRate").value();
@@ -23,17 +22,55 @@ function getAllData(){
  */
 function loadRateData(){
     console.info(dataArray);
-    console.log(dataArray);
+    //console.log(dataArray);
     console.info(dataArray3);
-    console.log(dataArray3);
-    //var myArr = new Array();
-    for(var i = 0 ; i < dataArray.length ; i++){
-        alert("-->>" + dataArray[i].realTimeRate+"####"+dataArray[i].uploadTime);
-    }
-    for(var i = 0 ; i < dataArray3.length ; i++){
-        alert("-->>" + dataArray3[i].realRate+"####"+dataArray3[i].status);
-    }
+    //console.log(dataArray3);
+    rateArr = new Array();//饼图的数组对象
+    realLineArr = new Array();//柱形图的数组对象
+    var unusedBit =[];//<45
+    var lowerBit = [];//45-60
+    var normalBit = [];//60-70心跳
+    var highBit = [];//>70心跳,原本应该设置成80-100的
+    var moreHighBit = [];//100-130
+    var highestBit = [];//>130
 
+    for(var i = 0 ; i < dataArray3.length ; i++){
+        if(dataArray3[i].status != 0){
+            if(dataArray3[i].realRate > 45 && dataArray3[i].realRate < 60){
+                lowerBit[i] = dataArray3[i].realRate;
+            } else if(dataArray3[i].realRate > 60 && dataArray3[i].realRate < 70){
+                normalBit[i] = dataArray3[i].realRate;
+            }else if(dataArray3[i].realRate > 80 && dataArray3[i].realRate <= 100){
+                highBit[i] = dataArray3[i].realRate;
+            }else if(dataArray3[i].realRate > 100 && dataArray3[i].realRate <= 130){
+                moreHighBit[i] = dataArray3[i].realRate;
+            }else if(dataArray3[i].realRate > 130){
+                highestBit[i] = dataArray3[i].realRate;
+            } else{
+                highBit[i] = dataArray3[i].realRate;//暂时是这样，因为没有数据，等造出数据之后再把这个干掉
+                unusedBit[i] = dataArray3[i].realRate;;
+            }
+        }else{
+            //alert("heartRate is unused because of the status is :"+ dataArray3[i].status);
+        }
+
+    }
+    //这是给饼图用的
+    rateArr.push({
+        normalRateCount : normalBit.length,
+        highRateCount : highBit.length
+    });
+    realLineArr.push({
+        unusedRateCount : unusedBit.length,
+        normalRateCount : normalBit.length,
+        highRateCount : highBit.length,
+        higherRateCount : moreHighBit.length,
+        highestRateCount : highestBit.length
+    });
+
+
+    initFormatPieChart(rateArr);
+    initHeartRateLineChart(realLineArr);//这个是心率的柱形图
 }
 /**
  * 字符串加工
@@ -44,95 +81,76 @@ function processString(rateString){
     }
     var list = [];
 
-
-
 }
 
-
-
-function initFormatPieChart() {
-
-    var myChart = echarts.init(document.getElementById('heartRatePieChart'));
-    var option = {
-        // backgroundColor: '#2c343c',
-        title: {
+/**
+ * 心率统计的饼形图
+ * @param inputData
+ */
+function initFormatPieChart(inputData) {
+    if(!inputData || inputData.length < 1){
+        return;
+    }
+    console.log(inputData);
+    var pieChart = echarts.init(document.getElementById('heartRatePieChart'));
+    option = {
+        title : {
             text: '心率统计饼图v1.0',
-            left: 'center',
-            top: 20,
-            textStyle: {
-                color: '#ccc'
-            }
-        },
-        toolbox: {
-            show : true,
-//		        x: 'center',
-//		        y: 'bottom',
-            feature : {
-                magicType : {show: true, type: ['line', 'bar']},
-                saveAsImage : {show: true}
-            }
+            subtext: '近24小时'
         },
         tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
-
-        visualMap: {
-            show: false,
-            min: 80,
-            max: 600,
-            inRange: {
-                colorLightness: [0, 1]
+        calculable : false,
+        legend: {
+        //,">130心率记录","50-60之间心率计数","<50心率计数"
+            data:["100-130之间心率计数","80-100之间心率计数"],
+            padding:[30,10,10,10],
+            x:'center'
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                magicType : {show: true, type: ['line', 'bar']},
+                saveAsImage : {show: true}
             }
         },
         series : [
             {
                 name:'访问来源',
                 type:'pie',
-                radius : '55%',
-                center: ['50%', '50%'],
-                data:[
-                    {value:735, name:'100-130之间心率计数'},
-                    {value:310, name:'80-100之间心率计数'},
-                    {value:274, name:'>130心率记录'},
-                    {value:235, name:'50-60之间心率计数'},
-                    {value:400, name:'<50心率计数'}
-                ].sort(function (a, b) { return a.value - b.value}),
-                roseType: 'angle',
-                label: {
-                    normal: {
-                        textStyle: {
-                            color: 'rgba(255, 255, 255, 0.3)'
-                        }
-                    }
-                },
-                labelLine: {
-                    normal: {
-                        lineStyle: {
-                            color: 'rgba(255, 255, 255, 0.3)'
-                        },
-                        smooth: 0.2,
-                        length: 10,
-                        length2: 20
-                    }
-                },
+                radius : '50%',
+                center: ['50%', '55%'],
                 itemStyle: {
                     normal: {
-                        color: '#c23531',
-                        shadowBlur: 200,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        label: {
+                            show: true,
+                            position:'outer',
+                            formatter:"{b} : {c}  ({d}%)"
+                        },
+                        labelLine: {
+                            show: true,
+                            length:1
+                        },
+                        color:
+                            function(params){
+                                var colors=["#32cd32","#87cefa","#6495ed","#ff69b4","#da70d6","#ba55d3","#ff7f50"];
+                                return colors[params.dataIndex];
+                            }
                     }
                 },
-
-                animationType: 'scale',
-                animationEasing: 'elasticOut',
-                animationDelay: function (idx) {
-                    return Math.random() * 200;
-                }
+                data:[
+                    {value:inputData[0]["normalRateCount"], name:'100-130之间心率计数'},
+                    {value:inputData[0].highRateCount, name:'80-100之间心率计数'}
+                    // {value:inputData["ABNORMAL_RECORDS"], name:'>130心率记录'},
+                    // {value:inputData["NOUSER_RECORDS"], name:'50-60之间心率计数'},
+                    // {value:inputData["NOUSER_RECORDS"], name:'<50心率计数'}
+                ]
             }
         ]
     };
-    myChart.setOption(option);
+    pieChart.setOption(option);
 }
 
 /**
@@ -389,8 +407,6 @@ function dymanicHeartChart(){
  */
 function dymanicLineChart(){
 
-
-
     function randomData() {
         now = new Date(+now + oneDay);
         value = value + Math.random() * 21 - 10;
@@ -461,4 +477,86 @@ function dymanicLineChart(){
             }]
         });
     }, 1000);
+}
+
+
+/**
+ * 统计各个时段产生的心率数据
+ */
+function initHeartRateLineChart(rows){
+    console.log(rows);
+    var lineChart = echarts.init(document.getElementById('HistoryLineChart'));
+    var legendData = [ '40-60心率',"60-80心率",'80-100心率','100-130心率','>130心率' ];
+    var legendLength = 0;
+    var series = [];
+    var serie1 = new Object();
+    serie1["name"] = "40-60心率";
+    serie1["type"] = 'bar';
+    serie1["data"] = [];
+    var serie2 = new Object();
+    serie2["name"] = "60-80心率";
+    serie2["type"] = 'bar';
+    serie2["data"] = [];
+    var serie3 = new Object();
+    serie3["name"] = "80-100心率";
+    serie3["type"] = 'bar';
+    serie3["data"] = [];
+    var serie4 = new Object();
+    serie4["name"] = "100-130心率";
+    serie4["type"] = 'bar';
+    serie4["data"] = [];
+    var serie5 = new Object();
+    serie5["name"] = ">130心率";
+    serie5["type"] = 'bar';
+    serie5["data"] = [];
+    var xAxisData = [];
+    for (var i = 0; i < rows.length; i++) {
+        serie1["data"].push(rows[i]["unusedRateCount"]);
+        serie2["data"].push(rows[i]["normalRateCount"]);
+        serie3["data"].push(rows[i]["highRateCount"]);
+        serie4["data"].push(rows[i]["higherRateCount"]);
+        serie5["data"].push(rows[i]["highestRateCount"]);
+        xAxisData.push((new Date()).getHours()+":"+(new Date()).getMinutes()+":"+(new Date()).getSeconds());
+    }
+
+    series.push(serie1);
+    series.push(serie2);
+    series.push(serie3);
+    series.push(serie4);
+    series.push(serie5);
+
+    var option = {
+        title : {
+            text : '历史数据',
+            padding : 0
+            //subtext : '近一小时'
+        },
+        tooltip : {
+            trigger : 'axis'
+        },
+        legend : {
+            data : legendData,
+            padding : 10,
+            x : 'center'
+        },
+        toolbox: {
+            show : false,
+            feature : {
+                magicType : {show: true, type: ['line', 'bar']},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [ {
+            type : 'category',
+            boundaryGap : true,
+            data : xAxisData
+        } ],
+        yAxis : [ {
+            type : 'value'
+        } ],
+        series : series
+    };
+    lineChart.setOption(option);
+
 }

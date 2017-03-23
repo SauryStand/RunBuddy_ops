@@ -64,7 +64,7 @@
          style="width:100%;height:350px;margin-top: 20px; padding: 0px;" plain="false"
          tabAlign="left" tabPosition="top">
         <h1>当天数据显示</h1>
-        <div title="预处理环节" style="height: 300px;width: 100%;">
+        <div title="数据显示" style="height: 300px;width: 100%;">
             <div id="heartRatePieChart" style="width: 50%; height: 280px;float:left;margin-top: 20px;">
             </div>
             <div id="heartRateLineChart" style="width: 50%; height: 280px;float:left;margin-top: 20px;">
@@ -72,8 +72,22 @@
         </div>
     </div>
 
-</form:form>
+    <%--第二行的表格--%>
+    <div class="mini-tabs" activeIndex="0"
+         style="width:100%;height:350px;margin-top: 20px; padding: 0px;" plain="false"
+         tabAlign="left" tabPosition="top">
+        <h1>历史数据显示</h1>
+        <div title="历史数据统计" style="height: 300px;width: 100%;">
+            <div id="HistoryLineChart" style="width: 50%; height: 280px;float:left;margin-top: 20px;">
+            </div>
+            <div id="PricingPreHanLineChart" style="width: 50%; height: 280px;float:left;margin-top: 20px;">
+            </div>
+        </div>
+    </div>
 
+
+
+</form:form>
 <sys:message content="${message}"/>
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
@@ -93,8 +107,8 @@
     <c:forEach  items="${page.list}" var="realdata">
         <tr>
             <td id="real_realTimeRate"  >${realdata.realTimeRate}</td>
-            <td id="real_uploadTime">${realdata.uploadTime}</td>
-            <td id="real_recordTime">${realdata.recordTime}</td>
+            <td id="real_uploadTime" dateFormat="yyyy-MM-dd HH:mm:ss">${realdata.uploadTime}</td>
+            <td id="real_recordTime" dateFormat="yyyy-MM-dd HH:mm:ss">${realdata.recordTime}</td>
             <%--<td id="real_realTimeRate"><c:out value="${data.realTimeRate}" /></td>--%>
             <%--<td id="real_uploadTime"><c:out value="${data.uploadTime}" /></td>--%>
             <%--<td id="real_recordTime"><c:out value="${data.recordTime}" /></td>--%>
