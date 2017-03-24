@@ -26,4 +26,7 @@ public interface HeartRateDao extends CrudDao<HeartRate> {
 
     int insertHeartDate(HeartRate heartRateDao);
 
+    public List<HeartRate> findAllHeartRateList(HeartRate heartRate);
+
+
 }

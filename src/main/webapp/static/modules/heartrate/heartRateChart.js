@@ -27,46 +27,62 @@ function loadRateData(){
     //console.log(dataArray3);
     rateArr = new Array();//饼图的数组对象
     realLineArr = new Array();//柱形图的数组对象
+    recordTimeArr = new Array();
     var unusedBit =[];//<45
     var lowerBit = [];//45-60
     var normalBit = [];//60-70心跳
     var highBit = [];//>70心跳,原本应该设置成80-100的
     var moreHighBit = [];//100-130
     var highestBit = [];//>130
-
+    var j = 0,k = 0,l = 0,m = 0,n = 0, p = 0;
     for(var i = 0 ; i < dataArray3.length ; i++){
         if(dataArray3[i].status != 0){
-            if(dataArray3[i].realRate > 45 && dataArray3[i].realRate < 60){
-                lowerBit[i] = dataArray3[i].realRate;
-            } else if(dataArray3[i].realRate > 60 && dataArray3[i].realRate < 70){
-                normalBit[i] = dataArray3[i].realRate;
+            if(dataArray3[i].realRate > 45 && dataArray3[i].realRate <= 60){
+                lowerBit[j++] = dataArray3[i].realRate;
+            } else if(dataArray3[i].realRate > 60 && dataArray3[i].realRate <= 80){
+                normalBit[k++] = dataArray3[i].realRate;
             }else if(dataArray3[i].realRate > 80 && dataArray3[i].realRate <= 100){
-                highBit[i] = dataArray3[i].realRate;
+                highBit[l++] = dataArray3[i].realRate;
             }else if(dataArray3[i].realRate > 100 && dataArray3[i].realRate <= 130){
-                moreHighBit[i] = dataArray3[i].realRate;
+                moreHighBit[m++] = dataArray3[i].realRate;
             }else if(dataArray3[i].realRate > 130){
-                highestBit[i] = dataArray3[i].realRate;
+                highestBit[n++] = dataArray3[i].realRate;
             } else{
-                highBit[i] = dataArray3[i].realRate;//暂时是这样，因为没有数据，等造出数据之后再把这个干掉
-                unusedBit[i] = dataArray3[i].realRate;;
+                //highBit[j++] = dataArray3[i].realRate;//暂时是这样，因为没有数据，等造出数据之后再把这个干掉
+                unusedBit[p++] = dataArray3[i].realRate;;
             }
         }else{
             //alert("heartRate is unused because of the status is :"+ dataArray3[i].status);
         }
 
     }
+
+    var timeline = [];
+    var count = 0;
+    //截取上传日期
+    for(var i = 0 ; i < dataArray.length ; i++){
+        if(dataArray[i].uploadTime != null){
+            timeline[count] = dataArray[i].uploadTime;
+        }
+    }
+
     //这是给饼图用的
     rateArr.push({
         normalRateCount : normalBit.length,
         highRateCount : highBit.length
     });
+    //线图
     realLineArr.push({
-        unusedRateCount : unusedBit.length,
+        lowerRateCount : lowerBit.length,
         normalRateCount : normalBit.length,
         highRateCount : highBit.length,
         higherRateCount : moreHighBit.length,
         highestRateCount : highestBit.length
     });
+    //时间
+    // recordTimeArr.push({
+    //    record : timeline.valueOf()
+    // });
 
 
     initFormatPieChart(rateArr);
@@ -153,138 +169,6 @@ function initFormatPieChart(inputData) {
     pieChart.setOption(option);
 }
 
-/**
- * unused
- */
-function dymanicHeartChartdgs(){
-    var myChart = echarts.init(document.getElementById('heartRateLineChart'));
-    var option = {
-        title : {
-            text: '动态数据',
-            subtext: '纯属虚构'
-        },
-        tooltip : {
-            trigger: 'axis'
-        },
-        legend: {
-            data:['最新成交价', '预购队列']
-        },
-        toolbox: {
-            show : true,
-            feature : {
-                mark : {show: true},
-                dataView : {show: true, readOnly: false},
-                magicType : {show: true, type: ['line', 'bar']},
-                restore : {show: true},
-                saveAsImage : {show: true}
-            }
-        },
-        dataZoom : {
-            show : false,
-            start : 0,
-            end : 100
-        },
-        xAxis : [
-            {
-                type : 'category',
-                boundaryGap : true,
-                data : (function (){
-                    var now = new Date();
-                    var res = [];
-                    var len = 10;
-                    while (len--) {
-                        res.unshift(now.toLocaleTimeString().replace(/^\D*/,''));
-                        now = new Date(now - 2000);
-                    }
-                    return res;
-                })()
-            },
-            {
-                type : 'category',
-                boundaryGap : true,
-                data : (function (){
-                    var res = [];
-                    var len = 10;
-                    while (len--) {
-                        res.push(len + 1);
-                    }
-                    return res;
-                })()
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value',
-                scale: true,
-                name : '价格',
-                boundaryGap: [0.2, 0.2]
-            },
-            {
-                type : 'value',
-                scale: true,
-                name : '预购量',
-                boundaryGap: [0.2, 0.2]
-            }
-        ],
-        series : [
-            {
-                name:'预购队列',
-                type:'bar',
-                xAxisIndex: 1,
-                yAxisIndex: 1,
-                data:(function (){
-                    var res = [];
-                    var len = 10;
-                    while (len--) {
-                        res.push(Math.round(Math.random() * 1000));
-                    }
-                    return res;
-                })()
-            },
-            {
-                name:'最新成交价',
-                type:'line',
-                data:(function (){
-                    var res = [];
-                    var len = 10;
-                    while (len--) {
-                        res.push((Math.random()*10 + 5).toFixed(1) - 0);
-                    }
-                    return res;
-                })()
-            }
-        ]
-    };
-    myChart.setOption(option);
-
-
-    var timeTicket;
-    var lastData = 11;
-    var axisData;
-    clearInterval(timeTicket);
-    timeTicket = setInterval(function (){
-        lastData += Math.random() * ((Math.round(Math.random() * 10) % 2) == 0 ? 1 : -1);
-        lastData = lastData.toFixed(1) - 0;
-        axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
-
-        // 动态数据接口 addData
-        myChart.addData([
-            [
-                0,        // 系列索引
-                Math.round(Math.random() * 1000), // 新增数据
-                false,     // 新增数据是否从队列头部插入
-                false     // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
-            ],
-            [
-                1,        // 系列索引
-                lastData, // 新增数据
-                false,    // 新增数据是否从队列头部插入
-                false,    // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
-                axisData  // 坐标轴标签
-            ]
-        ]);
-    }, 2100);
-}
 
 /**
  * 动态数据
@@ -317,7 +201,7 @@ function dymanicHeartChart(){
 
     var option = {
         title : {
-            text: '文件与话单积压',
+            text: '动态数据测试',
             padding : 0
             //subtext: '近一小时'
         },
@@ -510,14 +394,14 @@ function initHeartRateLineChart(rows){
     serie5["type"] = 'bar';
     serie5["data"] = [];
     var xAxisData = [];
-    for (var i = 0; i < rows.length; i++) {
-        serie1["data"].push(rows[i]["unusedRateCount"]);
-        serie2["data"].push(rows[i]["normalRateCount"]);
-        serie3["data"].push(rows[i]["highRateCount"]);
-        serie4["data"].push(rows[i]["higherRateCount"]);
-        serie5["data"].push(rows[i]["highestRateCount"]);
-        xAxisData.push((new Date()).getHours()+":"+(new Date()).getMinutes()+":"+(new Date()).getSeconds());
-    }
+    // for (var i = 0; i < rows.length; i++) {
+    // }
+    serie1["data"].push(rows[0]["lowerRateCount"]);
+    serie2["data"].push(rows[0]["normalRateCount"]);
+    serie3["data"].push(rows[0]["highRateCount"]);
+    serie4["data"].push(rows[0]["higherRateCount"]);
+    serie5["data"].push(rows[0]["highestRateCount"]);
+    xAxisData.push((new Date()).getHours()+":"+(new Date()).getMinutes()+":"+(new Date()).getSeconds());
 
     series.push(serie1);
     series.push(serie2);
@@ -558,5 +442,12 @@ function initHeartRateLineChart(rows){
         series : series
     };
     lineChart.setOption(option);
+
+}
+
+/**
+ * 分析心率数据
+ */
+function initShowRateAnalyse(){
 
 }

@@ -23,8 +23,8 @@ public class RealRateService extends CrudService<RealTimeRateDao,RealTimeRate> {
      * 页面显示的查询出来的list数组
      * @return
      */
-    public List<RealTimeRate> findAllRearRateList(){
-        return dao.findAllRearRateList(new RealTimeRate());
+    public List<RealTimeRate> findAllRearRateList2(){
+        return dao.findAllRearRateList(new RealTimeRate());//這裡的概念你要搞清楚哦
     }
 
     /**

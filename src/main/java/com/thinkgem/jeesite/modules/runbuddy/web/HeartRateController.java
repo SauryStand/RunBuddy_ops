@@ -1,25 +1,21 @@
 package com.thinkgem.jeesite.modules.runbuddy.web;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
-
 import com.alibaba.fastjson.JSONObject;
+import com.runbuddy.common.ReplyCollection;
+import com.thinkgem.jeesite.modules.runbuddy.entity.HeartRate;
 import com.thinkgem.jeesite.modules.runbuddy.entity.Rate;
-import com.thinkgem.jeesite.modules.runbuddy.entity.RealTimeRate;
+import com.thinkgem.jeesite.modules.runbuddy.service.HeartService;
 import org.apache.log4j.Logger;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.runbuddy.common.ReplyCollection;
-import com.thinkgem.jeesite.modules.runbuddy.dao.HeartRateDao;
-import com.thinkgem.jeesite.modules.runbuddy.entity.HeartRate;
-import com.thinkgem.jeesite.modules.runbuddy.service.HeartService;
-import com.thinkgem.jeesite.modules.runbuddy.service.Impl.HeartRateServiceImpl;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
 
 @Controller
 public class HeartRateController {
@@ -82,12 +78,10 @@ public class HeartRateController {
         String uploadTime = jsonObj.getString("uploadTime");
 
         logger.debug("-->>json拦截测试输出时间~~:" + uploadTime);
-
         //logger.debug("-->>json拦截测试输出List数组:" + jsonObj.getJSONArray("realTimeRate").toJSONString());
         //String recordTime = jsonObj.getString("recordTime");
         //JSONArray tempArr = new JSONArray();
-
-        heartService.saveArrHeartRate(jsonObj.getJSONArray("realTimeRate"),uploadTime);
+        heartService.saveArrHeartRate(jsonObj.getJSONArray("realTimeRate"),uploadTime);//这里保存的心率数据
         Rate rate = new Rate();
         for(Object unit : jsonObj.getJSONArray("realTimeRate")){
             JSONObject object = (JSONObject) unit;
@@ -111,8 +105,19 @@ public class HeartRateController {
         return reply;
     }
 
+    /**
+     * 另一个接口
+     * @return
+     */
+    @RequestMapping(value = "/analyse")
+    @ResponseBody
+    public ReplyCollection uploadAnalyseHeartRate(@RequestBody JSONObject jsonObj){
 
+        ReplyCollection reply = new ReplyCollection();
+        //logger.debug("-->>【心率分析】json拦截测试输出:" + jsonObj.toJSONString());
 
+        return reply;
+    }
 
 
 

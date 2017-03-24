@@ -15,7 +15,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 仿照SystemService写的RunBuddy模块service
@@ -36,16 +35,12 @@ public class HeartService extends BaseService {
 	public int saveHeartRate(HeartRate heartRate){
 		if(heartRate != null){
 			heartRate.preInsert();
-			heartRateDao.insert(heartRate);//插入心率数据
+			heartRateDao.insert(heartRate);//插入心率数据,这个是最先的成功例子
 			return 1;
 		}
 		return 0;
 	}
 
-	public int saveRealRateArr(RealTimeRate realTimeRate){
-
-		return 0;
-	}
 
 	//将事务设为false才能插入数据
 	@Transactional(readOnly = false)
@@ -84,13 +79,5 @@ public class HeartService extends BaseService {
 	}
 
 
-
-	public List<RealTimeRate> findAllRealData(){
-
-		return null;
-	}
-
-
-	
 	
 }
