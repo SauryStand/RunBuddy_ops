@@ -65,6 +65,7 @@
 	<!-- 数据源配置, 使用 BoneCP 数据库连接池 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
 	    <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
+		<!--如果配置多数据源的话就要写多数据源驱动类了-->
 	    <property name="driverClassName" value="${jdbc.driver}" />
 	    
 		<!-- 基本属性 url、user、password -->
@@ -109,5 +110,16 @@
 		<property name="username" value="${jdbc.username}"/>
 		<property name="password" value="${jdbc.password}"/>
 	</bean>-->
+
+	<!--============================多个数据源的配置使用多个sqlsessionFactory和多个JdbcTemplate 开始 =============-->
+	<!-- 动态切换SqlSessionFactory  -->
+	<bean id="sqlSessionDaoSupport" class="com.runbuddy.utils.db.SqlSessionDaoSupport">
+		<property name="targetSqlSessionFactorys">
+			<map value-type="org.apache.ibatis.session.SqlSessionFactory">
+				<entry key="defaultDataSource" value-ref="defaultSqlSessionFactory" />
+			</map>
+		</property>
+		<property name="defaultTargetSqlSessionFactory" ref="defaultSqlSessionFactory" />
+	</bean>
 	
 </beans>

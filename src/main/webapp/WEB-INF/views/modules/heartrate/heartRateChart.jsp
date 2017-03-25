@@ -42,8 +42,6 @@
         <%--dataArray = ${page.list};//赋值给js--%>
     </script>
 
-
-
     <script type="text/javascript" src="${ctxStatic}/modules/heartrate/heartRateChart.js"></script>
 </head>
 <body>

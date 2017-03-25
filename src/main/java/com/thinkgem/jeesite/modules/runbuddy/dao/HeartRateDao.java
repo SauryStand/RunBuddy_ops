@@ -26,7 +26,7 @@ public interface HeartRateDao extends CrudDao<HeartRate> {
 
     int insertHeartDate(HeartRate heartRateDao);
 
-    public List<HeartRate> findAllHeartRateList(HeartRate heartRate);
+    public List<HeartRate> findAllHeartRateList(HeartRate heartRate);//定位到mapper.xml裡面找對應的方法
 
 
 }

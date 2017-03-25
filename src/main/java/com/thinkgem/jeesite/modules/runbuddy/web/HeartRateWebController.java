@@ -70,8 +70,6 @@ public class HeartRateWebController extends BaseController {
 
         Rate rateModel = new Rate();
         HttpSession session = request.getSession();
-
-        logger.debug("------------------------------>>加载心率数组测试");
         //List<RealTimeRate> realList = heartService.findAllRealData();
         List<RealTimeRate> realList = realRateService.findAllRearRateList2();//查询所有心率数据
         logger.debug("------------------------------>>加载心率数组测试,数据打印:" + realList.toString());
@@ -112,11 +110,9 @@ public class HeartRateWebController extends BaseController {
             }
         }
 
-
-        for(int i = 0 ; i < firstTempRateList.size();i++){
-            logger.debug("---------------->>第一轮打印Rate处理出来的数组：:" + firstTempRateList.get(i).getRealRate() + "," + firstTempRateList.get(i).getRecordTime());
-        }
-
+//        for(int i = 0 ; i < firstTempRateList.size();i++){
+//            logger.debug("---------------->>第一轮打印Rate处理出来的数组：:" + firstTempRateList.get(i).getRealRate() + "," + firstTempRateList.get(i).getRecordTime());
+//        }
         //進一步分離 :
         //放上面為了減少系統開銷，不用每次有new一個stringBuilder
         StringBuilder builder = new StringBuilder();
@@ -167,11 +163,11 @@ public class HeartRateWebController extends BaseController {
     public String analyseList(HeartRate heartRate, HttpServletRequest request, HttpServletResponse response, Model model){
 
         List<HeartRate> heartRateList = heartRateService.findAllHeartRateList();
+        logger.debug("--->>测试咯"+heartRateList.size());
+        Page<HeartRate> page = heartRateService.findPage(new Page<HeartRate>(request, response), heartRate);
 
-        //System.out.println("--->>测试咯"+heartRateList.size());
-
-
-
+        model.addAttribute("list",heartRateList);
+        model.addAttribute("page",page);
 
         return "modules/heartrate/analyseRateChart";
     }

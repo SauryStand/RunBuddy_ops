@@ -17,16 +17,6 @@
 		</collection>
 	</resultMap>
 
-	<!-- <resultMap id="BaseResultMap" type="Role"> <result property="highest_rate" 
-		column="HIGHEST_RATE" javaType="string" jdbcType="VARCHAR"/> <result property="lowest_rate" 
-		column="LOWEST_RATE" javaType="string" jdbcType="VARCHAR"/> <result property="average_rate" 
-		column="AVEARAGE_RATE" javaType="string" jdbcType="VARCHAR"/> <result property="motion_state" 
-		column="MOTION_STATE" javaType="int" jdbcType="INTEGER"/> <result property="recommend_state" 
-		column="RECOMMEND_STATE" javaType="int" jdbcType="INTEGER"/> <result property="execise_time" 
-		column="EXCEISE_TIME" javaType="int" jdbcType="DATE"/> <result property="execise_load" 
-		column="EXECISE_LOAD" javaType="int" jdbcType="INTEGER"/> <result property="record_date" 
-		column="RECORD_DATE" javaType="java.util.Date" jdbcType="DATE"/> </resultMap> -->
-
 	<!-- <sql id="Base_Column_List"> HIGHEST_RATE, LOWEST_RATE, AVEARAGE_RATE, 
 		MOTION_STATE, RECOMMEND_STATE, EXCEISE_TIME, EXECISE_LOAD, RECORD_DATE </sql> -->
 
@@ -41,12 +31,22 @@
 		EXECISE_TIME=#{EXECISE_TIME,jdbcType=INTEGER}
 	</select>
 
-	<select id="getAllDate">
+	<select id="findAllHeartRateList" resultType="HeartRate">
 		SELECT
 		*
 		FROM
 		sys_heartrate_data
 	</select>
+
+	<select id="findList" resultType="HeartRate">
+		SELECT
+		*
+		FROM
+		sys_heartrate_data
+		order BY averageRate
+	</select>
+
+
 
 	<insert id="insert">
 		INSERT INTO sys_heartrate_data

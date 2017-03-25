@@ -1,5 +1,4 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.thinkgem.jeesite.modules.runbuddy.entity.RealTimeRate" %>
 <%@ page import="com.thinkgem.jeesite.modules.runbuddy.entity.Rate" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -15,36 +14,26 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>200 - 心率显示页面</title>
+    <title>200 - 心率數據分析頁面</title>
     <%@include file="/WEB-INF/views/include/head.jsp" %>
 
     <script type="text/javascript">
         dataArray = new Array();
-        <c:forEach  items="${page.list}" var="realdata2">
+        <c:forEach  items="${page.list}" var="realdata">
         dataArray.push({
-            realTimeRate:"${realdata2.realTimeRate}",
-            uploadTime:"${realdata2.uploadTime}"
-            <%--realRate:"${realdata.realRate}",--%>
-            <%--status:"${realdata.status}"--%>
+            highestRate:"${realdata.highestRate}",
+            lowestRate:"${realdata.lowestRate}",
+            averageRate:"${realdata.averageRate}",
+            motionState:"${realdata.motionState}",
+            recommendState:"${realdata.recommendState}",
+            execiseTime:"${realdata.execiseTime}",
+            execiseLoad:"${realdata.execiseLoad}",
+            recordDate:"${realdata.recordDate}"
         });
         </c:forEach>
         <%--dataArray = ${page.list};//赋值给js--%>
     </script>
-
-    <script type="text/javascript">
-        dataArray3 = new Array();
-        <c:forEach  items="${realArr}" var="realdata3">
-        dataArray3.push({
-            realRate:"${realdata3.realRate}",
-            status:"${realdata3.status}"
-        });
-        </c:forEach>
-        <%--dataArray = ${page.list};//赋值给js--%>
-    </script>
-
-
-
-    <script type="text/javascript" src="${ctxStatic}/modules/heartrate/heartRateChart.js"></script>
+    <script type="text/javascript" src="${ctxStatic}/modules/heartrate/analyseRateChart.js"></script>
 </head>
 <body>
 
@@ -63,7 +52,7 @@
     <div class="mini-tabs" activeIndex="0"
          style="width:100%;height:350px;margin-top: 20px; padding: 0px;" plain="false"
          tabAlign="left" tabPosition="top">
-        <h1>当天数据显示</h1>
+        <h1>分析数据显示</h1>
         <div title="数据显示" style="height: 300px;width: 100%;">
             <div id="heartRatePieChart" style="width: 50%; height: 280px;float:left;margin-top: 20px;">
             </div>
@@ -72,29 +61,18 @@
         </div>
     </div>
 
-    <%--第二行的表格--%>
-    <div class="mini-tabs" activeIndex="0"
-         style="width:100%;height:350px;margin-top: 20px; padding: 0px;" plain="false"
-         tabAlign="left" tabPosition="top">
-        <h1>历史数据显示</h1>
-        <div title="历史数据统计" style="height: 300px;width: 100%;">
-            <div id="HistoryLineChart" style="width: 50%; height: 280px;float:left;margin-top: 20px;">
-            </div>
-            <div id="PricingPreHanLineChart" style="width: 50%; height: 280px;float:left;margin-top: 20px;">
-            </div>
-        </div>
-    </div>
 
 
 
+<h1>历史数据显示</h1>
 </form:form>
 <sys:message content="${message}"/>
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
         <th>最高心率</th>
-        <th>平均心率</th>
         <th>最低心率</th>
+        <th>平均心率</th>
         <th>运动状态</th>
         <th>推荐运动模式</th>
         <th>运动时长</th>
@@ -109,14 +87,17 @@
 
     %>
     <!--这里传回来了page,list-->
-    <c:forEach  items="${page.list}" var="realdata">
+    <c:forEach  items="${page.list}" var="rate">
         <tr>
-            <td id="real_realTimeRate"  >${realdata.realTimeRate}</td>
-            <td id="real_uploadTime" dateFormat="yyyy-MM-dd HH:mm:ss">${realdata.uploadTime}</td>
-            <td id="real_recordTime" dateFormat="yyyy-MM-dd HH:mm:ss">${realdata.recordTime}</td>
-                <%--<td id="real_realTimeRate"><c:out value="${data.realTimeRate}" /></td>--%>
-                <%--<td id="real_uploadTime"><c:out value="${data.uploadTime}" /></td>--%>
-                <%--<td id="real_recordTime"><c:out value="${data.recordTime}" /></td>--%>
+            <td id="highestRate">${rate.highestRate}</td>
+            <td id="lowestRate">${rate.lowestRate}</td>
+            <td id="averageRate">${rate.averageRate}</td>
+            <td id="motionState">${rate.motionState}</td>
+            <td id="recommendState">${rate.recommendState}</td>
+            <td id="execiseTime">${rate.execiseTime}</td>
+            <td id="execiseLoad">${rate.execiseLoad}</td>
+            <td id="recordDate">${rate.recordDate}</td>
+
         </tr>
     </c:forEach>
 
