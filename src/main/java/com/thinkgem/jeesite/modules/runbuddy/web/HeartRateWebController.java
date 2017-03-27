@@ -63,7 +63,8 @@ public class HeartRateWebController extends BaseController {
      * 加载并返回数组
      * @param real
      * @param model
-     * @return     */
+     * @return
+     * */
     @RequiresPermissions("sys:user:function")
     @RequestMapping(value = "/heartrate")
     public String list(RealTimeRate real, HttpServletRequest request, HttpServletResponse response, Model model) {
