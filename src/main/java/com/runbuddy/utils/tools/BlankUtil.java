@@ -1,4 +1,4 @@
-package com.runbuddy.utils;
+package com.runbuddy.utils.tools;
 
 import java.io.Serializable;
 import java.util.*;

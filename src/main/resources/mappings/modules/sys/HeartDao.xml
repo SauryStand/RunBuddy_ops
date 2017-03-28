@@ -38,6 +38,7 @@
 		sys_heartrate_data
 	</select>
 
+	<!--基类会查到的-->
 	<select id="findList" resultType="HeartRate">
 		SELECT
 		*

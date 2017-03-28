@@ -17,7 +17,7 @@
 
 
     <!--基类需要用到这部分的sql-->
-    <select id="findList" resultType="RealTimeRate">
+    <select id="findList" resultType="Rate">
         SELECT
         *
         FROM sys_real_rate

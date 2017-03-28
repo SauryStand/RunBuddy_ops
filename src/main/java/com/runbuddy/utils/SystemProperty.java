@@ -1,5 +1,6 @@
 package com.runbuddy.utils;
 
+import com.runbuddy.utils.tools.BlankUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;

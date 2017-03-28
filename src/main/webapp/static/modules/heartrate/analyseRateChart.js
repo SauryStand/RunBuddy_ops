@@ -9,7 +9,68 @@ $(document).ready(function () {
 function loadRateData(){
 
     initAnalyseData();
+    initAnalysePieData();
+}
 
+/**
+ * 加载饼形图数据
+ */
+function initAnalysePieData(){
+    var pieChart = echarts.init(document.getElementById('heartRatePieChart'));
+    option = {
+        title : {
+            text: '心率数据分析统计v1.0',
+            subtext: '历史记录'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        calculable : false,
+        legend: {
+            data:["100-130之间心率计数","80-100之间心率计数"],
+            padding:[30,10,10,10],
+            x:'center'
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                magicType : {show: true, type: ['line', 'bar']},
+                saveAsImage : {show: true}
+            }
+        },
+        series : [
+            {
+                name:'访问来源',
+                type:'pie',
+                radius : '50%',
+                center: ['50%', '55%'],
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            position:'outer',
+                            formatter:"{b} : {c}  ({d}%)"
+                        },
+                        labelLine: {
+                            show: true,
+                            length:1
+                        },
+                        color:
+                            function(params){
+                                var colors=["#32cd32","#87cefa","#6495ed","#ff69b4","#da70d6","#ba55d3","#ff7f50"];
+                                return colors[params.dataIndex];
+                            }
+                    }
+                },
+                data:[
+                    {value:inputData[0]["normalRateCount"], name:'100-130之间心率计数'},
+                    {value:inputData[0].highRateCount, name:'80-100之间心率计数'}
+                ]
+            }
+        ]
+    };
+    pieChart.setOption(option);
 }
 
 /**
