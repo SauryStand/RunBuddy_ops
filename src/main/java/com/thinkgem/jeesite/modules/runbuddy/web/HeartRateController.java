@@ -31,8 +31,10 @@ public class HeartRateController {
 
 
     @RequestMapping(value = "/hearts")
+    //@RequestMapping(value = "/heartrate")
     @ResponseBody
-    public String upLoadHeartRate(String json) {
+    public ReplyCollection upLoadHeartRate(String json) {
+        ReplyCollection reply = new ReplyCollection();
         logger.debug("-->>RunBuddy_ops拦截，测试输出");
         logger.debug("-->>不考虑性能，随便new 随便static");
         HeartRate heartRate = new HeartRate();
@@ -43,14 +45,13 @@ public class HeartRateController {
         //int hight = (int) (Math.random() * 100);
         heartRate.setHighestRate(maxInt + "");
         heartRate.setLowestRate(minInt + "");
-        heartRate.setAverageRate("78");
+        heartRate.setAverageRate(average + "");
         heartRate.setMotionState(2);
         heartRate.setRecommendState(1);
-        heartRate.setExeciseTime(26);
-        heartRate.setExeciseLoad(18);
+        heartRate.setExeciseTime(23);
+        heartRate.setExeciseLoad(16);
         Date date = new Date();
-        String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                .format(date);
+        String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
         Timestamp recorDate = Timestamp.valueOf(nowTime);
         // SimpleDateFormat dateFormat = new
         // SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -63,7 +64,14 @@ public class HeartRateController {
         }else{
             logger.debug("-->>测试样例插入失败");
         }
-        return "";
+        if(feedback == 1){
+            reply.setCode("8888");
+            reply.setMessage("-->>上传成功！");
+        }else{
+            reply.setCode("4444");
+            reply.setMessage("-->>上传失败！");
+        }
+        return reply;
     }
 
     @RequestMapping(value = "/heartrate")
@@ -74,10 +82,8 @@ public class HeartRateController {
         logger.debug("-->>json拦截测试输出:" + jsonObj.toJSONString());
         //int realRate = Integer.parseInt(jsonObj.getString("realTimeRate"));
         //int status = Integer.parseInt(jsonObj.getString("status"));
-
         String uploadTime = jsonObj.getString("uploadTime");
-
-        logger.debug("-->>json拦截测试输出时间~~:" + uploadTime);
+        logger.debug("-->>json拦截测试输出时间:" + uploadTime);
         //logger.debug("-->>json拦截测试输出List数组:" + jsonObj.getJSONArray("realTimeRate").toJSONString());
         //String recordTime = jsonObj.getString("recordTime");
         //JSONArray tempArr = new JSONArray();
