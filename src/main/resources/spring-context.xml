@@ -37,7 +37,8 @@
     <!-- 扫描basePackage下所有以@MyBatisDao注解的接口 -->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-        <property name="basePackage" value="com.thinkgem.jeesite"/>
+        <property name="basePackage" value="com.thinkgem.jeesite"/><!--这里扫描了baseBean-->
+		<!--<property name="basePackage" value=""></property>-->
         <property name="annotationClass" value="com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao"/>
     </bean>
     

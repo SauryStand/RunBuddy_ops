@@ -571,6 +571,33 @@
             <version>1.1.46</version>
         </dependency>
 
+        <!--add in 2017.05.05 in order to add ssh login function <start>-->
+        <dependency>
+            <groupId>com.json</groupId>
+            <artifactId>plusoft</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.51</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.google.code.gson</groupId>-->
+            <!--<artifactId>gson</artifactId>-->
+            <!--<version>2.8.0</version>-->
+        <!--</dependency>-->
+
+        <!--in order to add ssh login function <end>-->
+
+
 
     </dependencies>
 

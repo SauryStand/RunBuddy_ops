@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="host">
+
+    <!-- 查询主机列表 --> 
+    <select id="queryHostList" parameterType="map" resultType="hashMap">
+      SELECT    D.HOST_ID,D.HOST_CODE,D.HOST_NAME,D.HOST_IP,
+				D.SSH_PORT,D.SSH_USER,D.SSH_PASSWD, D.HOST_STATE,
+				CASE D.HOST_STATE WHEN  1 THEN '启用' WHEN 0 THEN '失效'  END HOST_STATE_DESC,
+				D.RUN_STATE,CASE D.RUN_STATE WHEN  1 THEN '运行中' WHEN 0 THEN '待机'  END RUN_STATE_DESC,
+				CORE_COUNT,MEM_SIZE,STORE_SIZE,
+				date_format(D.CRT_DATE,'%Y-%m-%d %H:%i:%s') CRT_DATE,
+				date_format(D.EFF_DATE,'%Y-%m-%d %H:%i:%s') EFF_DATE,
+				date_format(D.EXP_DATE,'%Y-%m-%d %H:%i:%s') EXP_DATE,
+				date_format(D.RUN_DATE,'%Y-%m-%d %H:%i:%s') RUN_DATE,
+				date_format(D.END_DATE,'%Y-%m-%d %H:%i:%s') END_DATE
+       FROM DCF_HOST D
+       <where>
+           <if test="searchValue != null and searchValue != ''">  
+             	D.HOST_CODE LIKE  CONCAT('%', #{searchValue}, '%')
+             OR D.HOST_CODE LIKE  CONCAT('%', #{searchValue}, '%')
+           </if>
+           <if test="searchParam != null and searchParam != ''">  
+              AND (D.HOST_NAME LIKE  CONCAT('%', #{searchParam}, '%')
+             OR D.HOST_IP LIKE  CONCAT('%', #{searchParam}, '%'))
+           </if>
+           <if test="HOST_STATE != null and HOST_STATE != ''">  
+               AND D.HOST_STATE = #{HOST_STATE}
+           </if>
+           <if test="RUN_STATE != null and RUN_STATE != ''">  
+               AND D.RUN_STATE = #{RUN_STATE}
+           </if>
+            <if test="HOST_ID != null and HOST_ID != ''">  
+               AND D.HOST_ID = #{HOST_ID}
+           </if>
+            <if test="HOST_IP != null and HOST_IP != ''">  
+               AND D.HOST_IP = #{HOST_IP}
+           </if>
+           <if test="ENV_STATE != null and ENV_STATE != ''">
+           		AND D.ENV_STATE = #{ENV_STATE}
+           </if>
+           <if test="HOST_IDS != null and HOST_IDS != ''">
+           		AND D.HOST_ID IN (${HOST_IDS})
+           </if>
+       </where>
+       ORDER BY D.HOST_IP ASC,D.SSH_USER ASC,D.CRT_DATE DESC
+    </select>
+    
+    <!-- 查询主机运行状态 -->
+    <select id="queryHostInfoByCluster" parameterType="map" resultType="hashMap">
+    	SELECT B.HOST_IP,A.RUN_STATE
+    	 FROM DCF_HOST_DEPLOY A,DCF_HOST B
+		 WHERE A.SERVICE_TYPE_CODE=#{CODE}
+		<if test="IS_CLUSTER == 1">
+           	AND CLUSTER_ID=#{CLUSTER_ID}
+       	</if>
+		AND A.HOST_ID=B.HOST_ID 
+		ORDER BY A.RUN_STATE DESC
+    </select>
+    
+    <!-- 查询主机运行状态 -->
+    <select id="queryZkHostList" parameterType="map" resultType="hashMap">
+    	SELECT B.HOST_IP,A.STATUS RUN_STATE
+    	 FROM dcf_deploy_inst_config A,DCF_HOST B, DCF_SERVICE_TYPE C
+		 WHERE A.HOST_ID=B.HOST_ID
+		 AND A.DEPLOY_TYPE = C.CODE
+		 AND C.COMPONENT_TYPE = #{COMPONENT_TYPE}
+		 AND B.HOST_IP IN 
+		<foreach collection="HOST_LIST" index="index" item="hostIp" open="(" separator="," close=")">
+    		#{hostIp}
+  		</foreach>
+		 ORDER BY A.STATUS DESC
+    </select>
+    
+    <!-- 查询route“主”主机列表 -->
+    <select id="queryRouteHostByCluster" parameterType="map" resultType="hashMap">
+    	SELECT H.HOST_IP,
+    		H.HOST_ID,
+    		H.SSH_USER,
+    		H.SSH_PASSWD,
+    		H.SSH_PORT
+    	FROM DCF_HOST_DEPLOY D
+		LEFT JOIN DCF_HOST H
+			ON D.HOST_ID=H.HOST_ID
+    	WHERE D.SERVICE_TYPE_CODE='route'
+    		AND STATE=1
+    </select> 
+
+   <!-- 新增主机-->
+    <insert id="insertHost" parameterType="hashMap">
+       INSERT INTO 
+      	DCF_HOST(HOST_ID,
+	      	<if test="HOST_CODE != null and HOST_CODE != ''">  
+	              HOST_CODE,
+	        </if>
+	      	<if test="HOST_NAME != null and HOST_NAME != ''">  
+	              HOST_NAME,
+	        </if>
+	        HOST_IP,
+	      	<if test="SSH_PORT != null and SSH_PORT != ''">  
+	              SSH_PORT,
+	        </if>
+		SSH_USER,SSH_PASSWD,HOST_STATE,RUN_STATE,ENV_STATE,
+              CORE_COUNT,
+              MEM_SIZE,
+              STORE_SIZE,
+		CRT_DATE,EFF_DATE,EXP_DATE,
+		RUN_DATE,END_DATE,SEQ)
+		VALUES(NEWID(),
+			   <if test="HOST_CODE != null and HOST_CODE != ''">  
+	             #{HOST_CODE},
+	           </if>
+			   <if test="HOST_NAME != null and HOST_NAME != ''">  
+	             #{HOST_NAME},
+	           </if>
+	           #{HOST_IP},
+			   <if test="SSH_PORT != null and SSH_PORT != ''">  
+	             #{SSH_PORT,jdbcType=INTEGER},
+	           </if>
+		       #{SSH_USER},
+		       #{SSH_PASSWD},1,0,0,
+               #{CORE_COUNT},
+	           #{MEM_SIZE},
+	           #{STORE_SIZE},
+		      CURRENT_TIMESTAMP,#{EFF_DATE},#{EXP_DATE},
+		      NULL,NULL,NULL)
+    </insert>
+    
+     <!-- 更新 主机 -->
+    <update id="updateHost" parameterType="hashMap">
+       UPDATE DCF_HOST
+	   SET 
+	   	   <if test="HOST_CODE != null and HOST_CODE != ''">  
+             HOST_CODE = #{HOST_CODE},
+           </if>
+		   <if test="HOST_NAME != null and HOST_NAME != ''">  
+             HOST_NAME=#{HOST_NAME},
+           </if>
+	   		HOST_IP=#{HOST_IP},
+	       <if test="SSH_PORT != null and SSH_PORT != ''">  
+             SSH_PORT=#{SSH_PORT},
+           </if>
+	       SSH_USER=#{SSH_USER},SSH_PASSWD=#{SSH_PASSWD},
+	        <if test="CORE_COUNT != null and CORE_COUNT != ''">  
+	          	  CORE_COUNT = #{CORE_COUNT},
+	        </if>
+	        <if test="MEM_SIZE != null and MEM_SIZE != ''">  
+	            MEM_SIZE = #{MEM_SIZE},
+	        </if>
+	        <if test="STORE_SIZE != null and STORE_SIZE != ''">  
+	            STORE_SIZE = #{STORE_SIZE},
+	        </if>
+	       EFF_DATE=#{EFF_DATE}, EXP_DATE=#{EXP_DATE}
+	 WHERE HOST_ID=#{HOST_ID}
+    </update>
+    
+      <!-- 更新 主机部署环境 有效-->
+    <update id="updateHostEnvStateEffective" parameterType="hashMap">
+       UPDATE DCF_HOST
+	   SET ENV_STATE = 1
+	 WHERE HOST_ID=#{HOST_ID}
+    </update>
+    
+    <!-- 更新 主机 有效-->
+    <update id="updateHostStateEffective" parameterType="hashMap">
+       UPDATE DCF_HOST
+	   SET HOST_STATE = 1
+	 WHERE HOST_ID=#{HOST_ID}
+    </update>
+    
+     <!-- 更新 主机无效-->
+    <update id="updateHostStateInvalid" parameterType="hashMap">
+       UPDATE DCF_HOST
+	   SET HOST_STATE = 0,ENV_STATE = 0
+	 WHERE HOST_ID=#{HOST_ID}
+    </update>
+    
+    <!-- 删除 主机 -->
+    <delete id="delHost" parameterType="hashMap">
+      DELETE from DCF_HOST where HOST_ID=#{HOST_ID}
+    </delete>
+    
+     <!--判断主机代码是否重复-->
+    <select id="queryMuitlCode" parameterType="map" resultType="hashMap">
+         SELECT COUNT(1) SUM FROM DCF_HOST
+         WHERE  (HOST_CODE = #{HOST_CODE} OR HOST_IP = #{HOST_IP})
+         <if test="FLAG == 'update'">  
+         	 <![CDATA[
+             	AND HOST_ID <> #{HOST_ID}
+             	]]>
+           </if> 
+    </select>
+    
+      <!-- 所有有效的主机 -->
+     <select id="queryAllHostEffective" parameterType="map" resultType="hashMap">
+           SELECT  D.HOST_ID,
+							A.HOST_IP,A.SSH_PORT,A.SSH_USER,A.SSH_PASSWD,D.HOST_QUEUE_PORT ALLPORT
+			       FROM DCF_HOST_QUEUE D LEFT JOIN DCF_HOST A ON D.HOST_ID = A.HOST_ID
+			       WHERE A.HOST_STATE = 1 AND HOST_QUEUE_STATE = 1
+			UNION 
+			 SELECT D.HOST_ID,
+							A.HOST_IP,A.SSH_PORT,A.SSH_USER,A.SSH_PASSWD,D.HOST_COORD_PORT
+			       FROM DCF_HOST_COORD D LEFT JOIN DCF_HOST A ON D.HOST_ID = A.HOST_ID
+			       WHERE A.HOST_STATE = 1 AND HOST_COORD_STATE = 1
+			UNION
+			 SELECT D.HOST_ID,
+							A.HOST_IP,A.SSH_PORT,A.SSH_USER,A.SSH_PASSWD,D.HOST_COMPUTE_PORT
+			       FROM DCF_HOST_COMPUTE D LEFT JOIN DCF_HOST A ON D.HOST_ID = A.HOST_ID
+			       WHERE A.HOST_STATE = 1  AND HOST_COMPUTE_STATE = 1
+    </select>  
+    
+    <!-- 查询有效的主机并应用有效的主机总数 -->
+     <select id="queryAllHostStateEffectiveCount" parameterType="map" resultType="hashMap">
+			  SELECT COUNT(1) SUM FROM (  
+              SELECT * FROM (
+				SELECT  D.HOST_ID 
+			       FROM DCF_HOST_QUEUE D LEFT JOIN DCF_HOST A ON D.HOST_ID = A.HOST_ID
+			       WHERE  D.RUN_STATE = 1
+			        <if test="COORD_FLAG != null and COORD_FLAG != ''">
+			           </if>
+			            <choose>
+			            <when test="COORD_FLAG != null and COORD_FLAG != ''">
+			            </when>
+			            <otherwise>
+			                  UNION
+				       SELECT  D.HOST_ID 
+				       FROM DCF_HOST_COORD D LEFT JOIN DCF_HOST A ON D.HOST_ID = A.HOST_ID
+				       WHERE  D.RUN_STATE = 1
+			            </otherwise>
+        </choose>
+        
+			           
+			 UNION
+			 SELECT D.HOST_ID 
+			       FROM DCF_HOST_NIMBUS D LEFT JOIN DCF_HOST A ON D.HOST_ID = A.HOST_ID
+			       WHERE  D.RUN_STATE = 1
+			UNION
+			 SELECT D.HOST_ID 
+			       FROM DCF_HOST_COMPUTE D LEFT JOIN DCF_HOST A ON D.HOST_ID = A.HOST_ID
+			       WHERE D.RUN_STATE = 1 ) F
+			       
+			         <where>
+			           <if test="HOST_ID != null and HOST_ID != ''">
+			              AND F.HOST_ID = #{HOST_ID}
+			           </if>
+			       </where>
+			         
+			  ) B
+    </select>
+    
+     <!-- 查询有效的业务主机 -->
+     <select id="queryComputeHostEffective" parameterType="map" resultType="hashMap">
+          SELECT  D.HOST_ID,
+							A.HOST_IP,A.SSH_PORT,A.SSH_USER,A.SSH_PASSWD
+			       FROM DCF_HOST_NIMBUS D LEFT JOIN DCF_HOST A ON D.HOST_ID = A.HOST_ID
+			       WHERE A.HOST_STATE = 1 AND HOST_NIMBUS_STATE = 1
+			UNION 
+			 SELECT D.HOST_ID,
+							A.HOST_IP,A.SSH_PORT,A.SSH_USER,A.SSH_PASSWD
+			       FROM DCF_HOST_COMPUTE D LEFT JOIN DCF_HOST A ON D.HOST_ID = A.HOST_ID
+			       WHERE A.HOST_STATE = 1  AND HOST_COMPUTE_STATE = 1
+     </select>
+	 
+	<!--    查询所有已部署的主机 -->
+   <select id="queryAllTypeHosts" parameterType="map" resultType="hashMap">
+      SELECT
+			ss.HOST_TYPE,
+			t.HOST_ID,
+			t.HOST_NAME,
+			t.HOST_IP,
+			ss.HOST_STATE,
+			ss.HOST_STATE_NAME,
+			ss.RUN_STATE,
+			ss.RUN_STATE_NAME
+		FROM
+			(
+				SELECT
+					'supervise' host_type,
+					e.host_id,
+					e.HOST_COMPUTE_STATE HOST_STATE,
+					CASE e.HOST_COMPUTE_STATE
+				WHEN 0 THEN
+					'未启用'
+				WHEN 1 THEN
+					'已启用'
+				ELSE
+					'未知'
+				END HOST_STATE_NAME,
+				e.RUN_STATE,
+				CASE e.RUN_STATE
+			WHEN 0 THEN
+				'待机'
+			WHEN 1 THEN
+				'运行中'
+			ELSE
+				'未知'
+			END RUN_STATE_NAME
+			FROM
+				dcf_host_compute e
+			UNION ALL
+				SELECT
+					'zookeeper' host_type,
+					d.host_id,
+					d.HOST_COORD_STATE,
+					CASE d.HOST_COORD_STATE
+				WHEN 0 THEN
+					'未启用'
+				WHEN 1 THEN
+					'已启用'
+				ELSE
+					'未知'
+				END HOST_COORD_STATE_NAME,
+				d.RUN_STATE,
+				CASE d.RUN_STATE
+			WHEN 0 THEN
+				'待机'
+			WHEN 1 THEN
+				'运行中'
+			ELSE
+				'未知'
+			END RUN_STATE_NAME
+			FROM
+				dcf_host_coord d
+			UNION ALL
+				SELECT
+					'nimbus' host_type,
+					s.host_id,
+					s.HOST_NIMBUS_STATE,
+					CASE s.HOST_NIMBUS_STATE
+				WHEN 0 THEN
+					'未启用'
+				WHEN 1 THEN
+					'已启用'
+				ELSE
+					'未知'
+				END HOST_NIMBUS_STATE_NAME,
+				s.RUN_STATE,
+				CASE s.RUN_STATE
+			WHEN 0 THEN
+				'待机'
+			WHEN 1 THEN
+				'运行中'
+			ELSE
+				'未知'
+			END RUN_STATE_NAME
+			FROM
+				dcf_host_nimbus s
+			UNION ALL
+				SELECT
+					'postpaid' host_type,
+					p.host_id,
+					p.HOST_POST_STATE,
+					CASE p.HOST_POST_STATE
+				WHEN 0 THEN
+					'未启用'
+				WHEN 1 THEN
+					'已启用'
+				ELSE
+					'未知'
+				END HOST_POST_STATE_NAME,
+				'' RUN_STATE,
+				'未定义' RUN_STATE_NAME
+			FROM
+				dcf_host_postpaid p
+			UNION ALL
+				SELECT
+					'prepayment' host_type,
+					pr.host_id,
+					pr.HOST_PRE_STATE,
+					CASE pr.HOST_PRE_STATE
+				WHEN 0 THEN
+					'未启用'
+				WHEN 1 THEN
+					'已启用'
+				ELSE
+					'未知'
+				END HOST_NIMBUS_STATE_NAME,
+				'' RUN_STATE,
+				'未定义' RUN_STATE_NAME
+			FROM
+				dcf_host_prepayment pr
+			UNION ALL
+				SELECT
+					'kafka' host_type,
+					q.host_id,
+					q.HOST_QUEUE_STATE,
+					CASE q.HOST_QUEUE_STATE
+				WHEN 0 THEN
+					'未启用'
+				WHEN 1 THEN
+					'已启用'
+				ELSE
+					'未知'
+				END HOST_QUEUE_STATE_NAME,
+				q.RUN_STATE,
+				CASE q.RUN_STATE
+			WHEN 0 THEN
+				'待机'
+			WHEN 1 THEN
+				'运行中'
+			ELSE
+				'未知'
+			END RUN_STATE_NAME
+			FROM
+				dcf_host_queue q
+			UNION ALL
+				SELECT
+					'np' host_type,
+					sp.host_id,
+					sp.HOST_SP_STATE,
+					CASE sp.HOST_SP_STATE
+				WHEN 0 THEN
+					'未启用'
+				WHEN 1 THEN
+					'已启用'
+				ELSE
+					'未知'
+				END HOST_SP_STATE_NAME,
+				sp.RUN_STATE,
+				CASE sp.RUN_STATE
+			WHEN 0 THEN
+				'待机'
+			WHEN 1 THEN
+				'运行中'
+			ELSE
+				'未知'
+			END RUN_STATE_NAME
+			FROM
+				dcf_host_sp sp
+			UNION ALL
+				SELECT
+					'rent' host_type,
+					re.host_id,
+					re.HOST_MRENT_STATE,
+					CASE re.HOST_MRENT_STATE
+				WHEN 0 THEN
+					'未启用'
+				WHEN 1 THEN
+					'已启用'
+				ELSE
+					'未知'
+				END HOST_MRENT_STATE_NAME,
+				'' RUN_STATE,
+				'未定义' RUN_STATE_NAME
+			FROM
+				dcf_host_acct re
+			) ss
+		LEFT JOIN dcf_host t ON ss.HOST_ID = t.host_id
+    </select>
+    
+	<!-- 查询所有主机 -->
+    <select id="queryAllHosts" parameterType="map" resultType="hashMap">
+      SELECT
+			t.HOST_ID,
+			t.HOST_NAME,
+			t.HOST_IP,
+			t.HOST_STATE,
+			CASE t.HOST_STATE
+		WHEN 0 THEN
+			'未启用'
+		WHEN 1 THEN
+			'已启用'
+		ELSE
+			'未知'
+		END HOST_STATE_NAME,
+		 t.RUN_STATE,
+		 CASE t.RUN_STATE
+		WHEN 0 THEN
+			'待机'
+		WHEN 1 THEN
+			'运行中'
+		ELSE
+			'未知'
+		END RUN_STATE_NAME
+		FROM
+			dcf_host t
+    </select>
+    
+    <!-- 查询CDR主机 -->
+    <select id="queryCdrHost" resultType="hashMap">
+       SELECT  D.HOST_ID,D.HOST_CODE,D.HOST_NAME,D.HOST_IP,
+				D.SSH_PORT,D.SSH_USER,D.SSH_PASSWD 
+       FROM DCF_HOST D WHERE D.HOST_ID =
+        (SELECT HOST_ID FROM DCF_PREPAYMENT_TASK_PROGRAM
+         WHERE PROGRAM_CODE = 'cdr'  LIMIT 1)
+    </select>
+    
+     <!-- 查询CDR主机 -->
+    <select id="queryHostById" resultType="hashMap">
+       SELECT  D.HOST_ID,D.HOST_CODE,D.HOST_NAME,D.HOST_IP,
+				D.SSH_PORT,D.SSH_USER,D.SSH_PASSWD 
+       FROM DCF_HOST D WHERE D.HOST_ID = #{HOST_ID}
+         
+    </select>
+    
+     <!-- 查询主机信息,用于删除业务版本时,删除各远程主机上的包 -->
+    <select id="queryHostInfoForServiceDelete" resultType="hashMap">
+      SELECT
+			HOST_IP,
+			SSH_USER,
+			SSH_PASSWD
+		FROM
+			DCF_HOST
+		WHERE
+			HOST_ID IN (
+				SELECT DISTINCT
+					HOST_ID
+				FROM
+					DCF_HOST_DEPLOY
+				WHERE
+					SERVICE_TYPE_CODE IN (
+						SELECT
+							CODE
+						FROM
+							DCF_SERVICE_TYPE
+						WHERE
+							TYPE = 3
+					)
+				AND VERSION = #{VERSION}
+			)
+    </select>
+    
+     <!-- 查询主机信息,用于删除业务版本时,删除各远程主机上的包 -->
+    <select id="queryHostInfoForAddBillingAndRent" resultType="hashMap">
+		SELECT
+			HOST_ID,
+			HOST_IP
+		FROM
+			DCF_HOST
+		WHERE
+			HOST_ID IN (
+				SELECT DISTINCT
+					HOST_ID
+				FROM
+					DCF_HOST_DEPLOY
+				WHERE
+					SERVICE_TYPE_CODE IN (SELECT CODE FROM DCF_SERVICE_TYPE WHERE COMPONENT_TYPE IN ('jstorm'))
+				AND HOST_ID NOT IN (
+					SELECT
+						HOST_ID
+					FROM
+						DCF_HOST_DEPLOY
+					WHERE
+						SERVICE_TYPE_CODE = #{SERVICE_TYPE_CODE}
+				)
+			)
+    </select>
+    
+     <!-- 查询某台主机是否下挂应用 -->	
+	<select id="queryCountByHostIds" parameterType="map" resultType="hashMap">
+		SELECT COUNT(1) AS SUM FROM DCF_HOST_DEPLOY
+		WHERE HOST_ID IN
+		<foreach collection="ids" item="item" separator="," open="(" close=")">
+	       	#{item.HOST_ID}
+	    </foreach>
+	</select>
+	
+	<!-- 根据主机ID查询主机列表，终端操作 -->
+    <select id="queryHostForTermial" parameterType="map" resultType="map">
+    	SELECT A.HOST_ID, A.HOST_NAME, A.HOST_IP, A.SSH_PORT, A.SSH_USER, A.SSH_PASSWD
+		FROM DCF_HOST A
+		WHERE HOST_ID IN (${HOST_IDS}) 
+    </select>
+</mapper>
